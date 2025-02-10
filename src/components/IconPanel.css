@@ -1,0 +1,157 @@
+/* 图标面板容器 */
+.icon-panel {
+    position: absolute;
+    width: 390px;
+    max-height: 480px;  /* 添加最大高度 */
+    overflow-y: auto;  /* 添加垂直滚动 */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 
+        0 8px 14px rgba(0, 0, 0, 0.08),
+        0 1px 6px rgba(0, 0, 0, 0.16);
+    padding: 12px;
+    /* 添加一些动画效果 */
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* 添加淡入动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 自定义滚动条样式 */
+.icon-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.icon-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.icon-panel::-webkit-scrollbar-thumb {
+    background-color: #DBDBDB;
+    border-radius: 4px;
+}
+
+.icon-panel:hover::-webkit-scrollbar-thumb {
+    background-color: #B1B1B1;
+}
+
+/* 标题部分 */
+.panel-title {
+    position: relative;  /* 为伪元素定位提供参考 */
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 4px 0 16px 0;
+    padding-bottom: 12px;  /* 为分隔线留出空间 */
+    border-bottom: 0.5px solid #E6E6E6;  /* 添加底部分隔线 */
+}
+
+/* 添加蓝色选中线 */
+.panel-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;  /* 覆盖在灰色分割线上 */
+    left: 0;
+    width: 40px;  /* 根据 "Icons" 文字宽度调整 */
+    height: 2px;
+    background-color: #1e96eb;
+}
+
+/* 搜索框容器 */
+.search-container {
+    margin-top: 12px;  /* 为分隔线留出空间 */
+    margin-bottom: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.search-input {
+    width: 100%;
+    height: 32px;
+    padding: 0 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #FFFFFF;
+    box-sizing: border-box;
+}
+
+.search-input::placeholder {
+    color: #929292;
+}
+
+/* 图标区域容器 */
+.panel-section {
+    margin-bottom: 12px;  /* 每个 section 之间保持间距 */
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #7A7A7A;  /* 从 #666 改为 #7A7A7A */
+    margin-bottom: 12px;
+}
+
+/* 响应式图标网格 */
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 32px);
+
+    gap: 8px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.icon-item {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+}
+
+.icon-item:hover {
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+}
+
+.panel-icon {
+    width: 1.5rem;  /* 24px */
+    height: 1.5rem;  /* 24px */
+    color: #7A7A7A;  /* 改为 #7A7A7A */
+}
+
+/* 添加 SVG 填充颜色控制 */
+.panel-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.panel-icon svg path {
+    fill: currentColor;
+}
+
+/* 添加图标悬浮效果 */
+.icon-item:hover .panel-icon {
+    color: #333;  /* 保持悬浮时的颜色不变 */
+}
+
+/* 调整 icon-panel-container 的定位 */
+.icon-panel-container {
+    position: fixed;  /* 改为 fixed 定位，这样可以相对于视口定位 */
+    z-index: 1100;  /* 确保在 dropdown panel 上面 */
+} 
