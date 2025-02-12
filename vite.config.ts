@@ -4,11 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   base: './',
-  plugins: [
-    react({
-      include: ['**/*.tsx', '**/*.ts', '**/*.svg'],
-    })
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')

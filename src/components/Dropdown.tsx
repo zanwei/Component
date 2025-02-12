@@ -113,10 +113,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
                                 <SelectedIcon className="selected-icon" />
                             ) : (
                                 <BaseballIconComponent 
-                                    className="selected-icon" 
-                                    aria-hidden="true" 
-                                    width="24"
-                                    height="24"
+                                    className="selected-icon"
+                                    width={24}
+                                    height={24}
+                                    fill="currentColor"
                                 />
                             )}
                         </button>
