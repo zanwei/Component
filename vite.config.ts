@@ -5,14 +5,7 @@ import path from 'path';
 
 export default defineConfig({
   base: './',
-  plugins: [
-    react(),
-    svgr({
-      svgrOptions: {
-        icon: true,
-      },
-    }),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
