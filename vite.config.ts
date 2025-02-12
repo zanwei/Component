@@ -1,16 +1,15 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import svgr from 'vite-plugin-svgr';
 import path from 'path';
 
 export default defineConfig({
   base: './',
   plugins: [
-    react(),
-    svgr({
-      svgrOptions: {
-        icon: true,
-        typescript: true,
+    react({
+      babel: {
+        plugins: [
+          ['@svgr/babel-plugin-transform-react-native-svg', { native: false }]
+        ]
       }
     })
   ],
