@@ -4,15 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   base: './',
-  plugins: [
-    react({
-      babel: {
-        plugins: [
-          ['@svgr/babel-plugin-transform-react-native-svg', { native: false }]
-        ]
-      }
-    })
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -26,6 +18,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      external: ['*.svg'],
+      output: {
+        assetFileNames: 'assets/[name][extname]'
+      }
+    }
   }
 }); 

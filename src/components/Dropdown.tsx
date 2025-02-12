@@ -111,14 +111,17 @@ export const Dropdown: React.FC<DropdownProps> = ({
                             {SelectedIcon ? (
                                 <SelectedIcon className="selected-icon" />
                             ) : (
-                                <img 
-                                    src={BaseballSvg}
+                                <div 
                                     className="selected-icon"
                                     style={{ 
                                         width: '24px',
-                                        height: '24px'
+                                        height: '24px',
+                                        backgroundImage: `url(${BaseballSvg})`,
+                                        backgroundSize: 'contain',
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundPosition: 'center'
                                     }}
-                                    alt=""
+                                    role="img"
                                     aria-hidden="true"
                                 />
                             )}
