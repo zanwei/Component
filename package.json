@@ -21,7 +21,9 @@
     "@vitejs/plugin-react": "4.0.3",
     "typescript": "5.0.2",
     "vite": "4.4.5",
-    "vite-plugin-svgr": "3.2.0"
+    "vite-plugin-svgr": "^3.2.0",
+    "@svgr/core": "^8.0.0",
+    "@svgr/plugin-jsx": "^8.0.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

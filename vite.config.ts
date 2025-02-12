@@ -5,7 +5,16 @@ import path from 'path';
 
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [
+    react(),
+    svgr({
+      svgrOptions: {
+        icon: true,
+        svgo: true,
+        plugins: ['@svgr/plugin-jsx'],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
@@ -15,5 +24,12 @@ export default defineConfig({
     port: 3002,
     host: true,
     open: true
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    }
   }
 }); 
