@@ -118,6 +118,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
                                         height: '24px',
                                         color: 'currentColor'
                                     }}
+                                    aria-hidden="true"
+                                    role="img"
                                 />
                             )}
                         </button>
