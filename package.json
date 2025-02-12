@@ -6,32 +6,21 @@
   "scripts": {
     "dev": "vite --port 3002 --host",
     "build": "tsc && vite build",
-    "start": "node dist/index.js",
-    "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist -r https://github.com/你的用户名/你的仓库名.git"
-  },
-  "devDependencies": {
-    "@heroicons/react": "^2.0.18",
-    "@svgr/core": "^8.1.0",
-    "@svgr/plugin-jsx": "^8.1.0",
-    "@svgr/plugin-svgo": "^8.1.0",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "@vitejs/plugin-react": "^4.0.3",
-    "eslint": "^8.56.0",
-    "framer-motion": "^10.16.4",
-    "gh-pages": "^6.3.0",
-    "jotai": "^2.4.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-svgr": "^3.2.0"
+    "preview": "vite preview"
   },
   "dependencies": {
-    "lucide-react": "^0.475.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@heroicons/react": "2.0.18",
+    "framer-motion": "10.16.4",
+    "jotai": "2.4.3"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.15",
+    "@types/react-dom": "18.2.7",
+    "@vitejs/plugin-react": "4.0.3",
+    "typescript": "5.0.2",
+    "vite": "4.4.5",
+    "vite-plugin-svgr": "3.2.0"
   }
 }
