@@ -2,7 +2,7 @@
 .icon-panel {
     position: absolute;
     width: 390px;
-    max-height: 480px;  /* 添加最大高度 */
+    max-height: 320px;  /* 设置最大高度为 360px */
     overflow-y: auto;  /* 添加垂直滚动 */
     background: white;
     border-radius: 8px;
@@ -33,16 +33,21 @@
 
 /* 自定义滚动条样式 */
 .icon-panel::-webkit-scrollbar {
-    width: 8px;
+    width: 9px;  /* 滚动条容器宽度 */
+    padding: 2px;  /* 左右内边距 */
 }
 
 .icon-panel::-webkit-scrollbar-track {
     background: transparent;
+    margin: 4px 0;  /* 上下内边距 */
 }
 
 .icon-panel::-webkit-scrollbar-thumb {
-    background-color: #DBDBDB;
-    border-radius: 4px;
+    width: 5px;  /* 滚动条宽度 */
+    background-color: #D0D0D0;
+    border-radius: 4.5px;  /* 圆角 = (容器宽度 9px) / 2 */
+    border: 2px solid transparent;  /* 通过 border 实现左右 padding */
+    background-clip: content-box;
 }
 
 .icon-panel:hover::-webkit-scrollbar-thumb {
@@ -188,7 +193,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, 32px);
 
-    gap: 8px;
+    gap: 4px;
     justify-content: space-between;
     width: 100%;
 }
@@ -203,8 +208,8 @@
 }
 
 .panel-icon {
-    width: 1.5rem;  /* 24px */
-    height: 1.5rem;  /* 24px */
+    width: 1.6rem;  /* 24px */
+    height: 1.6rem;  /* 24px */
     color: inherit;
 }
 
@@ -229,7 +234,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #ffffff;
     border-radius: 4px;
     cursor: pointer;
     padding: 0;

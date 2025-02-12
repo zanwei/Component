@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { icons, IconName } from '../assets/icons';
+import { icons, IconName, SearchIcon } from '../assets/icons';
 import './IconPanel.css';
-import { SearchIcon } from '../assets/icons';
 
 interface IconPanelProps {
     onSelect: (iconName: IconName) => void;
