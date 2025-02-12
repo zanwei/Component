@@ -26,8 +26,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 }) => {
     const [selectedIcon, setSelectedIcon] = useState<IconName | null>('baseball');
     const [showIconPanel, setShowIconPanel] = useState(false);
-    const [recentIcons, setRecentIcons] = useState<Array<{ name: string; count: number }>>([]);
-    const [iconButtonRect, setIconButtonRect] = useState<DOMRect | null>(null);
+    const [, setIconButtonRect] = useState<DOMRect | null>(null);
     const [typeValue, setTypeValue] = useState('Last edited by');
     
     // 添加 refs
@@ -60,19 +59,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
     const handleIconSelect = (iconName: IconName) => {
         setSelectedIcon(iconName);
         setShowIconPanel(false);
-        
-        // 更新最近使用的图标
-        setRecentIcons(prev => {
-            const existing = prev.find(i => i.name === iconName);
-            if (existing) {
-                return prev.map(i => 
-                    i.name === iconName 
-                        ? { ...i, count: i.count + 1 }
-                        : i
-                );
-            }
-            return [...prev, { name: iconName, count: 1 }];
-        });
     };
 
     const handleIconButtonClick = () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import { Dropdown } from './components/Dropdown';
-import { IconPanel } from './components/IconPanel';
 import { IconPanelB } from './components/IconPanelB';
 import { JotaiPanel } from './components/JotaiPanel';
 import { activePanelAtom } from './store/atoms';
@@ -20,7 +19,10 @@ function App() {
                 <div className="panel-container">
                     {activePanel === 'dropdown' && (
                         <div className="app">
-                            <Dropdown onClose={() => {}} />
+                            <Dropdown 
+                                value="" 
+                                onChange={() => {}}
+                            />
                         </div>
                     )}
 
