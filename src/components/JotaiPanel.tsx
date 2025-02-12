@@ -6,6 +6,7 @@ import './JotaiPanel.css';
 export const JotaiPanel = () => {
     const [activePanel] = useAtom(activePanelAtom);
     const [, togglePanel] = useAtom(togglePanelAtom);
+    const [, setActivePanel] = useAtom(activePanelAtom);
 
     return (
         <div className="jotai-panel">
@@ -22,6 +23,9 @@ export const JotaiPanel = () => {
                     onClick={() => togglePanel('icon')}
                 >
                     Emoji Panel
+                </button>
+                <button onClick={() => setActivePanel('multi-tab')}>
+                    Multi Tab
                 </button>
             </div>
         </div>

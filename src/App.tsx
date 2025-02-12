@@ -4,6 +4,7 @@ import { Dropdown } from './components/Dropdown';
 import { IconPanel } from './components/IconPanel';
 import { IconPanelB } from './components/IconPanelB';
 import { JotaiPanel } from './components/JotaiPanel';
+import { MultiTab } from './components/MultiTab';
 import { activePanelAtom } from './store/atoms';
 import './App.css';
 
@@ -31,6 +32,10 @@ function App() {
                             }}
                             recentIcons={[]}
                         />
+                    )}
+
+                    {activePanel === 'multi-tab' && (
+                        <MultiTab />
                     )}
                 </div>
             </div>
