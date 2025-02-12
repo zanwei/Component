@@ -24,6 +24,7 @@ export const IconPanel: React.FC<IconPanelProps> = ({ onSelect, recentIcons }) =
     const colorPickerRef = useRef<HTMLDivElement>(null);
     const colorButtonRef = useRef<HTMLButtonElement>(null);
     const [colorPickerPosition, setColorPickerPosition] = useState({ top: 0, left: 0 });
+    const [selectedIconName, setSelectedIconName] = useState<IconName | null>(null);
 
     // 处理点击外部关闭颜色选择器
     useEffect(() => {
@@ -62,6 +63,7 @@ export const IconPanel: React.FC<IconPanelProps> = ({ onSelect, recentIcons }) =
         .slice(0, 10);
 
     const handleIconSelect = (iconName: IconName) => {
+        setSelectedIconName(iconName);
         onSelect(iconName);
     };
 
@@ -95,103 +97,114 @@ export const IconPanel: React.FC<IconPanelProps> = ({ onSelect, recentIcons }) =
         <AnimatePresence>
             <motion.div 
                 className={`icon-panel bg-white rounded-lg ${!hasSearchResults ? 'no-result' : ''}`}
-                initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                initial={{ opacity: 0, y: -10, scaleY: 0.95 }}
+                animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                exit={{ opacity: 0, y: -20, scaleY: 1 }}
                 transition={{ 
-                    duration: 0.15,
-                    ease: [0.4, 0, 0.2, 1]
+                    duration: 0,
+                    ease: [0.42, 0, 0.58, 1],
+                    opacity: { duration: 0.1 },
+                    y: { duration: 0.1 }
                 }}
             >
-                <h2 className="panel-title">Icons</h2>
-                <div className="search-container">
-                    <div className="search-input-wrapper">
-                        <SearchIcon className="search-icon" />
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Filter..."
-                            value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                        />
-                    </div>
-                    <button 
-                        ref={colorButtonRef}
-                        className="color-picker-button"
-                        onClick={handleColorButtonClick}
-                    >
-                        <div 
-                            className="color-dot"
-                            style={{ backgroundColor: selectedColor }}
-                        />
-                    </button>
-                    {showColorPicker && (
-                        <div 
-                            ref={colorPickerRef}
-                            className="color-picker-panel"
-                            style={{
-                                top: `${colorPickerPosition.top}px`,
-                                left: `${colorPickerPosition.left}px`
-                            }}
-                        >
-                            {colorOptions.map((color) => (
-                                <button
-                                    key={color}
-                                    className="color-option"
-                                    onClick={() => {
-                                        setSelectedColor(color);
-                                        setShowColorPicker(false);
-                                    }}
-                                >
-                                    <div 
-                                        className="color-dot"
-                                        style={{ backgroundColor: color }}
-                                    />
-                                </button>
-                            ))}
+                {/* 固定头部区域 */}
+                <div className="panel-header">
+                    <h2 className="panel-title">Icons</h2>
+                    <div className="search-container">
+                        <div className="search-input-wrapper">
+                            <SearchIcon className="search-icon" />
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder="Filter..."
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                            />
                         </div>
-                    )}
-                </div>
-                {!hasSearchResults ? (
-                    <div className="panel-section">
-                        <h3 className="section-title">No result</h3>
+                        <button 
+                            ref={colorButtonRef}
+                            className="color-picker-button"
+                            onClick={handleColorButtonClick}
+                        >
+                            <div 
+                                className="color-dot"
+                                style={{ backgroundColor: selectedColor }}
+                            />
+                        </button>
                     </div>
-                ) : (
-                    <>
-                        {sortedRecentIcons.length > 0 && !searchText && (
+                </div>
+
+                {/* 可滚动的内容区域 */}
+                <div className="panel-content">
+                    {!hasSearchResults ? (
+                        <div className="panel-section">
+                            <h3 className="section-title">No result</h3>
+                        </div>
+                    ) : (
+                        <>
+                            {sortedRecentIcons.length > 0 && !searchText && (
+                                <div className="panel-section">
+                                    <h3 className="section-title">Recent</h3>
+                                    <div className="icon-grid">
+                                        {sortedRecentIcons.map(recent => {
+                                            const iconData = allIcons.find(i => i.name === recent.name);
+                                            return iconData && (
+                                                <motion.button
+                                                    key={recent.name}
+                                                    className="icon-item"
+                                                    onClick={() => handleIconSelect(recent.name as IconName)}
+                                                >
+                                                    {iconData.icon}
+                                                </motion.button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
                             <div className="panel-section">
-                                <h3 className="section-title">Recent</h3>
+                                <h3 className="section-title">Icons</h3>
                                 <div className="icon-grid">
-                                    {sortedRecentIcons.map(recent => {
-                                        const iconData = allIcons.find(i => i.name === recent.name);
-                                        return iconData && (
-                                            <motion.button
-                                                key={recent.name}
-                                                className="icon-item"
-                                                onClick={() => handleIconSelect(recent.name as IconName)}
-                                            >
-                                                {iconData.icon}
-                                            </motion.button>
-                                        );
-                                    })}
+                                    {filteredIcons.map(({ name, icon }) => (
+                                        <motion.button
+                                            key={name}
+                                            className={`icon-item ${selectedIconName === name ? 'selected' : ''}`}
+                                            onClick={() => handleIconSelect(name)}
+                                        >
+                                            {icon}
+                                        </motion.button>
+                                    ))}
                                 </div>
                             </div>
-                        )}
-                        <div className="panel-section">
-                            <h3 className="section-title">Icons</h3>
-                            <div className="icon-grid">
-                                {filteredIcons.map(({ name, icon }) => (
-                                    <motion.button
-                                        key={name}
-                                        className="icon-item"
-                                        onClick={() => handleIconSelect(name)}
-                                    >
-                                        {icon}
-                                    </motion.button>
-                                ))}
-                            </div>
-                        </div>
-                    </>
+                        </>
+                    )}
+                </div>
+
+                {/* 颜色选择器面板保持不变 */}
+                {showColorPicker && (
+                    <div 
+                        ref={colorPickerRef}
+                        className="color-picker-panel"
+                        style={{
+                            top: `${colorPickerPosition.top}px`,
+                            left: `${colorPickerPosition.left}px`
+                        }}
+                    >
+                        {colorOptions.map((color) => (
+                            <button
+                                key={color}
+                                className="color-option"
+                                onClick={() => {
+                                    setSelectedColor(color);
+                                    setShowColorPicker(false);
+                                }}
+                            >
+                                <div 
+                                    className="color-dot"
+                                    style={{ backgroundColor: color }}
+                                />
+                            </button>
+                        ))}
+                    </div>
                 )}
             </motion.div>
         </AnimatePresence>

@@ -17,14 +17,12 @@ import BaseballIcon from '../assets/icons/baseball.svg?react';
 interface DropdownProps {
     value: string;
     onChange: Dispatch<SetStateAction<string>>;
-    onIconChange: () => void;
     icon?: "user" | "edit";
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
     value,
     onChange,
-    onIconChange
 }) => {
     const [selectedIcon, setSelectedIcon] = useState<IconName | null>('baseball');
     const [showIconPanel, setShowIconPanel] = useState(false);
@@ -35,6 +33,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     // 添加 refs
     const iconButtonRef = useRef<HTMLButtonElement>(null);
     const iconPanelRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     // 处理点击外部关闭
     useEffect(() => {
@@ -44,6 +43,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 iconPanelRef.current &&
                 !iconButtonRef.current.contains(event.target as Node) &&
                 !iconPanelRef.current.contains(event.target as Node)) {
+                setShowIconPanel(false);
+            }
+            if (dropdownRef.current && 
+                !dropdownRef.current.contains(event.target as Node)) {
                 setShowIconPanel(false);
             }
         };
@@ -70,15 +73,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
             }
             return [...prev, { name: iconName, count: 1 }];
         });
-        
-        // 调用 onIconChange
-        onIconChange();
     };
 
-    const handleIconButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        const rect = event.currentTarget.getBoundingClientRect();
-        setIconButtonRect(rect);
-        setShowIconPanel(!showIconPanel);
+    const handleIconButtonClick = () => {
+        if (iconButtonRef.current) {
+            const rect = iconButtonRef.current.getBoundingClientRect();
+            setIconButtonRect(rect);
+            setShowIconPanel(!showIconPanel);
+        }
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -112,7 +114,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
     return (
         <div className="center-container">
-            <div className="dropdown-container">
+            <div className="dropdown-container" ref={dropdownRef}>
                 <div className="dropdown-menu">
                     <div className="dropdown-input-section">
                         <button 
@@ -164,20 +166,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
                         </div>
                     ))}
                 </div>
-                {showIconPanel && iconButtonRect && (
-                    <div 
-                        ref={iconPanelRef}
-                        className="icon-panel-container"
-                        style={{
-                            top: `${iconButtonRect.top - 8}px`,
-                            left: `${iconButtonRect.left}px`
-                        }}
-                    >
-                        <IconPanel 
-                            onSelect={handleIconSelect}
-                            recentIcons={recentIcons}
-                        />
-                    </div>
+                {showIconPanel && (
+                    <IconPanel 
+                        onSelect={handleIconSelect}
+                        recentIcons={[]}
+                    />
                 )}
             </div>
         </div>

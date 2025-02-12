@@ -1,22 +1,24 @@
+/* 直接复制 IconPanel.css 的内容 */ 
+
 /* 图标面板容器 */
-.icon-panel {
-    position: absolute;  /* 相对于最近的定位父元素 */
-    top: 42px;  /* 改为 42px */
-    left: 0;
+.icon-panel-b {
     width: 390px;
-    height: 320px;
+    height: 320px;  /* 固定高度 */
+    min-height: 320px;  /* 添加最小高度 */
+    max-height: 320px;  /* 添加最大高度 */
     background: white;
     border-radius: 8px;
     box-shadow: 0 8px 14px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(0, 0, 0, 0.16);
-    display: flex;
-    flex-direction: column;
-    transform-origin: bottom left;  /* 从底部开始变形 */
-    will-change: transform, opacity;
-    z-index: 1100;  /* 确保在其他元素上方 */
+    display: flex;  /* 改为 flex 布局 */
+    flex-direction: column;  /* 垂直方向排列 */
+    transform-origin: top;  /* 从顶部开始变形 */
+    will-change: transform, opacity;  /* 优化动画性能 */
+    overflow: hidden;  /* 防止内容溢出 */
+    box-sizing: border-box;  /* 添加这行，确保 padding 不会影响总尺寸 */
 }
 
 /* 固定头部区域 */
-.panel-header {
+.panel-header-b {
     padding: 12px 12px 0;
     background: white;
     border-radius: 8px 8px 0 0;
@@ -24,25 +26,27 @@
 }
 
 /* 可滚动的内容区域 */
-.panel-content {
+.panel-content-b {
     flex: 1;
     overflow-y: auto;
     padding: 0 12px 12px;
     margin-top: 12px;
+    height: calc(100% - 116px);  /* 减去头部高度 */
+    min-height: 0;  /* 允许内容区域收缩 */
 }
 
 /* 修改滚动条样式，应用到 panel-content */
-.panel-content::-webkit-scrollbar {
+.panel-content-b::-webkit-scrollbar {
     width: 9px;
     padding: 2px;
 }
 
-.panel-content::-webkit-scrollbar-track {
+.panel-content-b::-webkit-scrollbar-track {
     background: transparent;
     margin: 4px 0;
 }
 
-.panel-content::-webkit-scrollbar-thumb {
+.panel-content-b::-webkit-scrollbar-thumb {
     width: 5px;
     background-color: #D0D0D0;
     border-radius: 4.5px;
@@ -50,36 +54,13 @@
     background-clip: content-box;
 }
 
-/* No result 状态下的 padding */
-.icon-panel.no-result {
-    padding: 12px 12px 8px 12px;  /* 只改变底部 padding */
-}
-
-/* 自定义滚动条样式 */
-.icon-panel::-webkit-scrollbar {
-    width: 9px;  /* 滚动条容器宽度 */
-    padding: 2px;  /* 左右内边距 */
-}
-
-.icon-panel::-webkit-scrollbar-track {
-    background: transparent;
-    margin: 4px 0;  /* 上下内边距 */
-}
-
-.icon-panel::-webkit-scrollbar-thumb {
-    width: 5px;  /* 滚动条宽度 */
-    background-color: #D0D0D0;
-    border-radius: 4.5px;  /* 圆角 = (容器宽度 9px) / 2 */
-    border: 2px solid transparent;  /* 通过 border 实现左右 padding */
-    background-clip: content-box;
-}
-
-.icon-panel:hover::-webkit-scrollbar-thumb {
-    background-color: #B1B1B1;
+/* No result 状态下的样式 */
+.icon-panel-b.no-result .panel-content-b {
+    padding: 0 12px 8px;  /* 移动 padding 到内容区域 */
 }
 
 /* 标题部分 */
-.panel-title {
+.panel-title-b {
     position: relative;  /* 为伪元素定位提供参考 */
     font-size: 14px;
     font-weight: 600;
@@ -90,7 +71,7 @@
 }
 
 /* 添加蓝色选中线 */
-.panel-title::after {
+.panel-title-b::after {
     content: '';
     position: absolute;
     bottom: -1px;  /* 覆盖在灰色分割线上 */
@@ -101,7 +82,7 @@
 }
 
 /* 搜索框容器 */
-.search-container {
+.search-container-b {
     position: relative;  /* 为颜色选择器面板提供定位上下文 */
     margin-top: 12px;
     margin-bottom: 12px;
@@ -111,14 +92,14 @@
     gap: 8px;
 }
 
-.search-input-wrapper {
+.search-input-wrapper-b {
     position: relative;
     flex: 1;
     display: flex;
     align-items: center;
 }
 
-.search-icon {
+.search-icon-b {
     position: absolute;
     left: 10px;  /* 改为 10px，与输入框左侧的间距 */
     width: 20px;
@@ -130,16 +111,16 @@
     justify-content: center;
 }
 
-.search-icon svg {
+.search-icon-b svg {
     width: 100%;
     height: 100%;
 }
 
-.search-icon path {
+.search-icon-b path {
     fill: #7A7A7A;  /* 直接指定颜色 */
 }
 
-.search-input {
+.search-input-b {
     flex: 1;
     height: 32px;
     padding: 0 16px 0 38px;  /* 左侧 padding 改为 38px (10px + 20px icon + 8px gap) */
@@ -152,21 +133,20 @@
 }
 
 /* 添加焦点状态样式 */
-.search-input:focus {
+.search-input-b:focus {
     outline: none;
     border: 1.5px solid #1e96eb;  /* 明确指定边框宽度为 1px */
 }
 
-.search-input::placeholder {
+.search-input-b::placeholder {
     color: #929292;
 }
 
-/* 颜色选择器按钮容器 */
-.color-picker-button {
-    position: relative;  /* 为 color-picker-panel 提供定位上下文 */
-    width: 32px;
-    height: 32px;
-    padding: 4px;
+/* 颜色选择器按钮 */
+.color-picker-button-b {
+    width: 32px;  /* 固定宽度 */
+    height: 32px;  /* 与输入框同高 */
+    padding: 4px;  /* 内边距 */
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     background: #FFFFFF;
@@ -178,7 +158,7 @@
 }
 
 /* 颜色点 */
-.color-dot {
+.color-dot-b {
     width: 18px;  /* 从 24px 改为 18px */
     height: 18px;  /* 从 24px 改为 18px */
     border-radius: 50%;  /* 使其成为圆形 */
@@ -186,27 +166,27 @@
 }
 
 /* 颜色选择器按钮悬浮效果 */
-.color-picker-button:hover {
+.color-picker-button-b:hover {
     border-color: #d9d9d9;
 }
 
 /* 颜色选择器按钮焦点效果 */
-.color-picker-button:focus {
+.color-picker-button-b:focus {
     outline: none;
     border: 1.5px solid #1e96eb;
 }
 
 /* 图标区域容器 */
-.panel-section {
+.panel-section-b {
     margin-bottom: 12px;  /* 每个 section 之间保持间距 */
 }
 
 /* 第一个 section-title 不需要上边距 */
-.panel-content > :first-child .section-title {
+.panel-content-b > :first-child .section-title-b {
     margin-top: 0;
 }
 
-.section-title {
+.section-title-b {
     font-size: 14px;
     font-weight: 400;
     color: #7A7A7A;
@@ -214,22 +194,21 @@
 }
 
 /* 当父元素只有一个子元素时（No result 情况）调整下边距 */
-.panel-section:only-child .section-title {
+.panel-section-b:only-child .section-title-b {
     margin-bottom: 4px;  /* 从 8px 改为 4px */
 }
 
 /* 响应式图标网格 */
-.icon-grid {
+.icon-grid-b {
     display: grid;
     grid-template-columns: repeat(auto-fill, 32px);
-
     gap: 4px;
     justify-content: space-between;
     width: 100%;
 }
 
 /* SVG 图标样式 */
-.icon-wrapper {
+.icon-wrapper-b {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -237,28 +216,28 @@
     height: 100%;
 }
 
-.panel-icon {
+.panel-icon-b {
     width: 1.7rem;  /* 24px */
     height: 1.7rem;  /* 24px */
     color: inherit;
 }
 
 /* 确保所有 SVG 元素都继承颜色 */
-.panel-icon svg,
-.panel-icon svg *,
-.panel-icon path,
-.panel-icon rect,
-.panel-icon circle,
-.panel-icon line,
-.panel-icon polyline,
-.panel-icon polygon {
+.panel-icon-b svg,
+.panel-icon-b svg *,
+.panel-icon-b path,
+.panel-icon-b rect,
+.panel-icon-b circle,
+.panel-icon-b line,
+.panel-icon-b polyline,
+.panel-icon-b polygon {
     fill: currentColor !important;
     stroke: none !important;  /* 移除边框 */
     color: inherit;
 }
 
 /* 图标按钮样式 */
-.icon-item {
+.icon-item-b {
     width: 32px;
     height: 32px;
     display: flex;
@@ -272,23 +251,21 @@
 }
 
 /* 添加选中状态样式 */
-.icon-item.selected {
+.icon-item-b.selected {
     background: rgba(0, 0, 0, 0.1);  /* 10% 透明度的黑色背景 */
     border-radius: 4px;
 }
 
 /* 修改图标悬浮效果 */
-.icon-item:hover .panel-icon {
+.icon-item-b:hover .panel-icon-b {
     opacity: 0.8;
 }
 
 /* 颜色选择器面板 */
-.color-picker-panel {
-    position: absolute;  /* 相对于 color-picker-button 定位 */
-    top: 100%;          /* 从按钮底部开始 */
-    left: 50%;          /* 水平居中 */
-    transform: translateX(-50%);  /* 水平居中偏移 */
-    margin-top: 8px;    /* 与按钮保持 8px 间距 */
+.color-picker-panel-b {
+    position: absolute;
+    top: 94px;
+    left: 210px;
     width: 246px;
     height: 38px;
     background: white;
@@ -304,7 +281,7 @@
     z-index: 1200;
 }
 
-.color-option {
+.color-option-b {
     padding: 0;
     background: none;
     border: none;
@@ -316,7 +293,7 @@
     height: 22px;
 }
 
-.color-option:hover {
+.color-option-b:hover {
     transform: scale(1.1);
     transition: transform 0.2s ease;
 } 

@@ -21,7 +21,7 @@ export const JotaiPanel = () => {
                     className={`jotai-button ${activePanel === 'icon' ? 'active' : ''}`}
                     onClick={() => togglePanel('icon')}
                 >
-                    Icon Panel
+                    Emoji Panel
                 </button>
             </div>
         </div>

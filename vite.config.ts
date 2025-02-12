@@ -4,7 +4,7 @@ import svgr from 'vite-plugin-svgr';
 import path from 'path';
 
 export default defineConfig({
-  base: '/affine-components/',
+  base: './',
   plugins: [
     react(),
     svgr({
@@ -22,5 +22,13 @@ export default defineConfig({
     port: 3002,
     host: true,
     open: true
-  }
+  },
+  optimizeDeps: {
+    include: ['jotai'],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/jotai/],
+    },
+  },
 }); 

@@ -42,6 +42,10 @@
     background: transparent;  /* 确保容器是透明的 */
 }
 
+.dropdown-container {
+    position: relative;  /* 确保有相对定位 */
+}
+
 .dropdown-header {
     display: flex;
     align-items: center;
@@ -275,4 +279,10 @@
     justify-content: center;
     min-height: 100vh;
     background: #fff;  /* 或者其他背景色 */
+}
+
+/* 添加一个容器来管理 IconPanel 的位置 */
+.icon-button-container {
+    position: relative;  /* 为 IconPanel 提供定位上下文 */
+    display: inline-block;
 } 
