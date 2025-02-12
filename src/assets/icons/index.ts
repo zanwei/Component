@@ -28,6 +28,8 @@ import CollectIcon from './collect.svg?react';
 import ColorIcon from './color.svg?react';
 import Computer2Icon from './computer-2.svg?react';
 import MovieIcon from './movie.svg?react';
+import SearchIcon from './search.svg?react';
+import ComputerIcon from './computer.svg?react';
 
 // 定义 SVG 组件类型
 export type SVGComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
@@ -57,7 +59,10 @@ export const icons = {
     collect: CollectIcon,
     color: ColorIcon,
     computer2: Computer2Icon,
+    computer: ComputerIcon,
     movie: MovieIcon,
 } as const;
 
-export type IconName = keyof typeof icons; 
+export type IconName = keyof typeof icons;
+
+export { SearchIcon };  // 单独导出 SearchIcon 

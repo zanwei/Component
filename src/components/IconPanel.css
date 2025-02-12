@@ -73,22 +73,52 @@
 
 /* 搜索框容器 */
 .search-container {
-    margin-top: 12px;  /* 为分隔线留出空间 */
+    margin-top: 12px;
     margin-bottom: 12px;
     width: 100%;
     box-sizing: border-box;
+    display: flex;  /* 添加 flex 布局 */
+    gap: 8px;  /* 添加间距 */
+    position: relative;  /* 为颜色选择器面板提供定位上下文 */
+}
+
+.search-input-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;  /* 改为 10px，与输入框左侧的间距 */
+    width: 20px;
+    height: 20px;
+    color: #7A7A7A;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.search-icon path {
+    fill: #7A7A7A;  /* 直接指定颜色 */
 }
 
 .search-input {
-    width: 100%;
+    flex: 1;
     height: 32px;
-    padding: 0 16px;
+    padding: 0 16px 0 38px;  /* 左侧 padding 改为 38px (10px + 20px icon + 8px gap) */
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     font-size: 14px;
     background: #FFFFFF;
     box-sizing: border-box;
-    /* 添加过渡效果 */
     transition: border-color 0.2s ease;
 }
 
@@ -102,6 +132,40 @@
     color: #929292;
 }
 
+/* 颜色选择器按钮 */
+.color-picker-button {
+    width: 32px;  /* 固定宽度 */
+    height: 32px;  /* 与输入框同高 */
+    padding: 4px;  /* 内边距 */
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: #FFFFFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+/* 颜色点 */
+.color-dot {
+    width: 18px;  /* 从 24px 改为 18px */
+    height: 18px;  /* 从 24px 改为 18px */
+    border-radius: 50%;  /* 使其成为圆形 */
+    background-color: #1e96eb;  /* 默认蓝色 */
+}
+
+/* 颜色选择器按钮悬浮效果 */
+.color-picker-button:hover {
+    border-color: #d9d9d9;
+}
+
+/* 颜色选择器按钮焦点效果 */
+.color-picker-button:focus {
+    outline: none;
+    border: 1.5px solid #1e96eb;
+}
+
 /* 图标区域容器 */
 .panel-section {
     margin-bottom: 12px;  /* 每个 section 之间保持间距 */
@@ -109,6 +173,7 @@
 
 .section-title {
     font-size: 14px;
+    font-weight: 500;  /* 添加 font-weight: 500 */
     color: #7A7A7A;
     margin: 14px 0px 12px;  /* 默认边距 */
 }
@@ -128,6 +193,36 @@
     width: 100%;
 }
 
+/* SVG 图标样式 */
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.panel-icon {
+    width: 1.5rem;  /* 24px */
+    height: 1.5rem;  /* 24px */
+    color: inherit;
+}
+
+/* 确保所有 SVG 元素都继承颜色 */
+.panel-icon svg,
+.panel-icon svg *,
+.panel-icon path,
+.panel-icon rect,
+.panel-icon circle,
+.panel-icon line,
+.panel-icon polyline,
+.panel-icon polygon {
+    fill: currentColor !important;
+    stroke: none !important;  /* 移除边框 */
+    color: inherit;
+}
+
+/* 图标按钮样式 */
 .icon-item {
     width: 32px;
     height: 32px;
@@ -141,34 +236,48 @@
     background: none;
 }
 
-.icon-item:hover {
-    background: #f5f5f5;
-    border-color: #d9d9d9;
-}
-
-.panel-icon {
-    width: 1.5rem;  /* 24px */
-    height: 1.5rem;  /* 24px */
-    color: #7A7A7A;  /* 改为 #7A7A7A */
-}
-
-/* 添加 SVG 填充颜色控制 */
-.panel-icon svg {
-    width: 100%;
-    height: 100%;
-}
-
-.panel-icon svg path {
-    fill: currentColor;
-}
-
-/* 添加图标悬浮效果 */
+/* 修改图标悬浮效果 */
 .icon-item:hover .panel-icon {
-    color: #333;  /* 保持悬浮时的颜色不变 */
+    opacity: 0.8;
 }
 
 /* 调整 icon-panel-container 的定位 */
 .icon-panel-container {
     position: fixed;  /* 改为 fixed 定位，这样可以相对于视口定位 */
     z-index: 1100;  /* 确保在 dropdown panel 上面 */
+}
+
+/* 颜色选择器面板 */
+.color-picker-panel {
+    position: fixed;
+    width: 246px;
+    height: 38px;
+    background: white;
+    border-radius: 6px;
+    border: 0.5px solid #E6E6E6;  /* 添加边框 */
+    box-shadow: 
+        0 8px 14px rgba(0, 0, 0, 0.08),
+        0 1px 6px rgba(0, 0, 0, 0.16);  /* 使用和 iconPanel 一样的阴影 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    z-index: 1200;
+}
+
+.color-option {
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
 } 
