@@ -12,7 +12,7 @@
   "dependencies": {
     "@heroicons/react": "2.0.18",
     "framer-motion": "10.16.4",
-    "jotai": "2.4.3",
+    "jotai": "1.13.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
