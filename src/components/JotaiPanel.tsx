@@ -23,6 +23,12 @@ export const JotaiPanel = () => {
                 >
                     Emoji Panel
                 </button>
+                <button 
+                    className={`jotai-button ${activePanel === 'multi-tab' ? 'active' : ''}`}
+                    onClick={() => togglePanel('multi-tab')}
+                >
+                    Multi Tab
+                </button>
             </div>
         </div>
     );
