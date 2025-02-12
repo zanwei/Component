@@ -1,3 +1,5 @@
+/* 将原来的 SimpleTabs.css 内容复制到这里 */
+
 /* 修改容器尺寸，使用变量便于统一管理 */
 :root {
   --tab-font-size: 14px;
@@ -6,10 +8,8 @@
 }
 
 .simple-tabs-container {
-  width: 1000px;
+  width: 965px;  /* 1000px - 35px(+ 号按钮宽度) */
   height: calc(var(--tab-height) + var(--container-padding) * 2);
-  background-color: #f0f0f0;
-  padding: var(--container-padding);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -18,8 +18,7 @@
 
 .tabs-scroll-container {
   flex: 1;
-  margin-right: 32px; /* 为添加按钮留出空间 */
-  overflow: hidden; /* 改为 hidden，不再允许滚动 */
+  overflow: hidden;
 }
 
 .tabs-wrapper {
@@ -27,6 +26,12 @@
   height: var(--tab-height);
   gap: 8px;
   width: 100%;
+  position: relative;
+  padding: 0 4px;
+}
+
+.tabs-wrapper > * {
+  transition: background-color 0.2s;
 }
 
 .tab {
@@ -35,23 +40,27 @@
   min-width: 60px;
   max-width: 200px;
   width: 120px;
-  background-color: #e0e0e0;
+  background-color: #E9E9E9;
+  border-radius: 4px;
   display: flex;
-  align-items: center; /* 确保内容垂直居中 */
+  align-items: center;
   justify-content: space-between;
   padding: 0 8px;
   cursor: pointer;
   user-select: none;
   transition: background-color 0.2s;
   flex: 1 1 0;
+  transform-origin: center;
 }
 
 .tab:hover {
-  background-color: #d0d0d0;
+  background-color: #E1E1E1;  /* 稍微暗一点的灰色作为悬浮状态 */
 }
 
 .tab.active {
-  background-color: #ffffff;
+  background-color: rgba(30, 150, 235, 0.1); /* #1e96eb 10% */
+  color: #1e96eb;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .tab-title {
@@ -62,6 +71,7 @@
   font-size: var(--tab-font-size);
   line-height: var(--tab-font-size);
   padding: 2px 0;
+  color: inherit; /* 继承父元素的颜色 */
 }
 
 .tab-close {
@@ -82,7 +92,6 @@
   padding: 2px;
 }
 
-/* 鼠标悬停或激活状态时显示关闭按钮 */
 .tab:hover .tab-close,
 .tab.active .tab-close {
   opacity: 1;
@@ -93,13 +102,12 @@
 }
 
 .add-tab-button {
-  position: absolute;
-  right: var(--container-padding);
-  top: var(--container-padding);
+  margin-left: 16px;  /* 与标签容器保持 16px 间距 */
   width: var(--tab-height);
   height: var(--tab-height);
   border: none;
-  background-color: #e0e0e0;
+  background-color: #E9E9E9;
+  border-radius: 4px;
   color: #666;
   font-size: var(--tab-font-size);
   display: flex;
@@ -110,36 +118,20 @@
 }
 
 .add-tab-button:hover {
-  background-color: #d0d0d0;
+  background-color: #E1E1E1;
 }
 
-/* 在现有样式的基础上添加 */
 .tab.dragging {
-  opacity: 0.5;
   cursor: move;
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform: scale(1.02) translateY(-2px);
+  opacity: 0.9;
+  pointer-events: none;
+  background-color: #F5F5F5;
 }
 
-/* 添加拖拽指示器样式 */
-.tab.drop-left::before,
-.tab.drop-right::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 2px;
-  height: 100%;
-  background-color: #000000;
-  z-index: 1;
-}
-
-.tab.drop-left::before {
-  left: -5px; /* 调整位置以适应间距 */
-}
-
-.tab.drop-right::after {
-  right: -5px; /* 调整位置以适应间距 */
-}
-
-/* 修改输入框样式 */
 .tab-input {
   flex: 1;
   min-width: 0;
@@ -155,6 +147,35 @@
 }
 
 .tab-input:focus {
-  background: rgba(0, 0, 0, 0.05); /* 替换原来的边框和阴影，改用轻微的背景色 */
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 2px;
-} 
+}
+
+/* 插入位置指示器 */
+.tab-insert-indicator {
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background-color: #1e96eb;
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 101;
+}
+
+.tab-insert-indicator.visible {
+  opacity: 1;
+}
+
+/* 标签间隔动画 */
+.tab-spacer {
+  width: 8px;
+  transition: width 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.tab-spacer.expanded {
+  width: 128px; /* tab width + gap */
+}
+
+/* ... 其他样式 ... */ 

@@ -15,7 +15,8 @@ export const panelPositionAtom = atom({
 // 创建一个派生的 atom 来处理面板的显示/隐藏逻辑
 export const togglePanelAtom = atom(
     (get) => get(activePanelAtom),
-    (_, set, panel: PanelType) => {
-        set(activePanelAtom, panel === get(activePanelAtom) ? null : panel);
+    (get, set, panel: PanelType) => {
+        const currentPanel = get(activePanelAtom);
+        set(activePanelAtom, panel === currentPanel ? null : panel);
     }
 ); 

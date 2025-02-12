@@ -5,8 +5,6 @@ const INITIAL_TABS: TabItem[] = [
   { id: '1', title: 'Tab 1' },
   { id: '2', title: 'Tab 2' },
   { id: '3', title: 'Tab 3' },
-  { id: '4', title: 'Tab 4' },
-  { id: '5', title: 'Tab 5' },
 ];
 
 export function useTabs() {
@@ -62,10 +60,6 @@ export function useTabs() {
     );
   };
 
-  const handleSelect = (id: string) => {
-    setActiveTab(id);
-  };
-
   return {
     tabs,
     activeTab,
@@ -73,6 +67,6 @@ export function useTabs() {
     handleClose,
     handleAdd,
     handleRename,
-    handleSelect,
+    handleSelect: setActiveTab,
   };
 } 
