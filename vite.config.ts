@@ -18,12 +18,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true,
-    rollupOptions: {
-      external: ['*.svg'],
-      output: {
-        assetFileNames: 'assets/[name][extname]'
-      }
-    }
+    sourcemap: true
   }
 }); 
