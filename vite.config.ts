@@ -8,11 +8,20 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({
+      exportAsDefault: true,
       svgrOptions: {
         icon: true,
-        svgo: true,
-        plugins: ['@svgr/plugin-jsx'],
-      },
+        typescript: true,
+        dimensions: false,
+        svgoConfig: {
+          plugins: [
+            {
+              name: 'removeViewBox',
+              active: false
+            }
+          ]
+        }
+      }
     }),
   ],
   resolve: {
@@ -26,9 +35,17 @@ export default defineConfig({
     open: true
   },
   build: {
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
-        assetFileNames: 'assets/[name].[ext]'
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const extType = info[info.length - 1];
+          if (/\.(png|jpe?g|gif|svg|ico|webp)$/i.test(assetInfo.name)) {
+            return `assets/images/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        }
       }
     }
   }
