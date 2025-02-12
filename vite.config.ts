@@ -15,13 +15,5 @@ export default defineConfig({
     port: 3002,
     host: true,
     open: true
-  },
-  optimizeDeps: {
-    include: ['jotai']
-  },
-  build: {
-    commonjsOptions: {
-      include: [/jotai/],
-    },
-  },
+  }
 }); 

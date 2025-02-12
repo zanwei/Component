@@ -1,17 +1,19 @@
-import { useAtom } from 'jotai';
+import { useState } from 'react';
 import { Dropdown } from './components/Dropdown';
 import { IconPanelB } from './components/IconPanelB';
 import { JotaiPanel } from './components/JotaiPanel';
-import { activePanelAtom } from './store/atoms';
 import './App.css';
 
 function App() {
-    const [activePanel] = useAtom(activePanelAtom);
+    const [activePanel, setActivePanel] = useState<'dropdown' | 'icon'>('dropdown');
 
     return (
         <div className="app">
             {/* Jotai Panel - 固定在左上角 */}
-            <JotaiPanel />
+            <JotaiPanel 
+                activePanel={activePanel}
+                onPanelChange={setActivePanel}
+            />
 
             {/* 中央内容区域 */}
             <div className="content-wrapper">
