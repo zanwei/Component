@@ -77,7 +77,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
     };
 
     const SelectedIcon = selectedIcon ? icons[selectedIcon] : null;
-    const BaseballIconComponent = BaseballIcon;
 
     const optionGroups = [
         [
