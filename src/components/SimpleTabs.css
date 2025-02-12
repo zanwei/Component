@@ -1,1 +1,19 @@
- 
+/* 修改容器尺寸，使用变量便于统一管理 */
+:root {
+  --tab-font-size: 14px;
+  --tab-height: calc(var(--tab-font-size) * 2.5); /* 35px */
+  --container-padding: 8px;
+}
+
+.simple-tabs-container {
+  width: 1000px;
+  height: calc(var(--tab-height) + var(--container-padding) * 2);
+  background-color: #f0f0f0;
+  padding: var(--container-padding);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* ... 其他 CSS 样式 ... */
