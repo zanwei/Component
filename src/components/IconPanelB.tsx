@@ -137,13 +137,13 @@ export const IconPanelB: React.FC<IconPanelBProps> = ({ onSelect, recentIcons })
                                     {sortedRecentIcons.map(recent => {
                                         const iconData = allIcons.find(i => i.name === recent.name);
                                         return iconData && (
-                                            <motion.button
+                                            <button
                                                 key={recent.name}
                                                 className="icon-item-b"
                                                 onClick={() => handleIconSelect(recent.name as IconName)}
                                             >
                                                 {iconData.icon}
-                                            </motion.button>
+                                            </button>
                                         );
                                     })}
                                 </div>
@@ -153,13 +153,13 @@ export const IconPanelB: React.FC<IconPanelBProps> = ({ onSelect, recentIcons })
                             <h3 className="section-title-b">Icons</h3>
                             <div className="icon-grid-b">
                                 {filteredIcons.map(({ name, icon }) => (
-                                    <motion.button
+                                    <button
                                         key={name}
                                         className={`icon-item-b ${selectedIconName === name ? 'selected' : ''}`}
                                         onClick={() => handleIconSelect(name)}
                                     >
                                         {icon}
-                                    </motion.button>
+                                    </button>
                                 ))}
                             </div>
                         </div>

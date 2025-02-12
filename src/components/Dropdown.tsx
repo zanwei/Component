@@ -12,7 +12,6 @@ import {
 import './Dropdown.css';
 import { IconPanel } from './IconPanel';
 import { IconName, icons } from '../assets/icons';
-import { BaseballIcon } from '../assets/icons/BaseballIcon';
 
 interface DropdownProps {
     value: string;
@@ -24,9 +23,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
     value,
     onChange,
 }) => {
-    const [selectedIcon, setSelectedIcon] = useState<IconName | null>('baseball');
+    const [selectedIcon, setSelectedIcon] = useState<IconName | null>('category');
     const [showIconPanel, setShowIconPanel] = useState(false);
-    const [, setIconButtonRect] = useState<DOMRect | null>(null);
+    const [recentIcons, setRecentIcons] = useState<Array<{ name: string; count: number }>>([]);
+    const [iconButtonRect, setIconButtonRect] = useState<DOMRect | null>(null);
     const [typeValue, setTypeValue] = useState('Last edited by');
     
     // 添加 refs
@@ -59,6 +59,19 @@ export const Dropdown: React.FC<DropdownProps> = ({
     const handleIconSelect = (iconName: IconName) => {
         setSelectedIcon(iconName);
         setShowIconPanel(false);
+        
+        // 更新最近使用的图标
+        setRecentIcons(prev => {
+            const existing = prev.find(i => i.name === iconName);
+            if (existing) {
+                return prev.map(i => 
+                    i.name === iconName 
+                        ? { ...i, count: i.count + 1 }
+                        : i
+                );
+            }
+            return [...prev, { name: iconName, count: 1 }];
+        });
     };
 
     const handleIconButtonClick = () => {
@@ -111,12 +124,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
                             {SelectedIcon ? (
                                 <SelectedIcon className="selected-icon" />
                             ) : (
-                                <BaseballIcon 
-                                    className="selected-icon"
-                                    width={24}
-                                    height={24}
-                                    aria-hidden="true"
-                                />
+                                <div className="selected-icon">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                </div>
                             )}
                         </button>
                         <input

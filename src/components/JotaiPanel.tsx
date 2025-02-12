@@ -1,24 +1,25 @@
+import React from 'react';
+import { useAtom } from 'jotai';
+import { activePanelAtom, togglePanelAtom } from '../store/atoms';
 import './JotaiPanel.css';
 
-interface JotaiPanelProps {
-    activePanel: 'dropdown' | 'icon';
-    onPanelChange: (panel: 'dropdown' | 'icon') => void;
-}
+export const JotaiPanel = () => {
+    const [activePanel] = useAtom(activePanelAtom);
+    const [, togglePanel] = useAtom(togglePanelAtom);
 
-export const JotaiPanel = ({ activePanel, onPanelChange }: JotaiPanelProps) => {
     return (
         <div className="jotai-panel">
             <div className="jotai-header">Jotai Panel</div>
             <div className="jotai-content">
                 <button 
                     className={`jotai-button ${activePanel === 'dropdown' ? 'active' : ''}`}
-                    onClick={() => onPanelChange('dropdown')}
+                    onClick={() => togglePanel('dropdown')}
                 >
                     Dropdown Menu
                 </button>
                 <button 
                     className={`jotai-button ${activePanel === 'icon' ? 'active' : ''}`}
-                    onClick={() => onPanelChange('icon')}
+                    onClick={() => togglePanel('icon')}
                 >
                     Emoji Panel
                 </button>

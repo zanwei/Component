@@ -3,10 +3,9 @@
 
 import { FunctionComponent, SVGProps } from 'react';
 
-// 统一使用 ?react 方式导入所有图标
+// 使用 ?react 后缀导入所有图标
 import BackwardIcon from './backward.svg?react';
 import BagIcon from './bag.svg?react';
-import BaseballIcon from './baseball.svg?react';
 import BasketballIcon from './basketball.svg?react';
 import BitcoinIcon from './bitcoin.svg?react';
 import BookIcon from './book.svg?react';
@@ -31,8 +30,7 @@ import MovieIcon from './movie.svg?react';
 import SearchIcon from './search.svg?react';
 import ComputerIcon from './computer.svg?react';
 
-
-// 添加新的图标导入
+// 修改这些图标的导入
 import DataIcon from './data.svg?react';
 import Data2Icon from './data-2.svg?react';
 import DirectionIcon from './direction.svg?react';
@@ -70,7 +68,6 @@ export type SVGComponent = FunctionComponent<SVGProps<SVGSVGElement>>;
 export const icons = {
     backward: BackwardIcon,
     bag: BagIcon,
-    baseball: BaseballIcon,
     basketball: BasketballIcon,
     bitcoin: BitcoinIcon,
     book: BookIcon,
