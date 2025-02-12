@@ -115,6 +115,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                                     className="selected-icon"
                                     width={24}
                                     height={24}
+                                    aria-hidden="true"
                                 />
                             )}
                         </button>
