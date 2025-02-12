@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
-import type { TabProps, DragItem } from '../../types/tabs';
+import type { TabProps } from '../../types/tabs';
+import { useTabDrag } from '../../hooks/useTabDrag';
 
 export const Tab: React.FC<TabProps> = ({ 
   tab, 
@@ -9,65 +9,23 @@ export const Tab: React.FC<TabProps> = ({
   moveTab, 
   onClose, 
   onSelect, 
-  onRename 
+  onRename,
+  insertPosition,
+  onUpdateInsertPosition
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [dropIndicator, setDropIndicator] = useState<'left' | 'right' | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(tab.title);
 
-  const [{ isDragging }, drag] = useDrag({
-    type: 'TAB',
-    item: { id: tab.id, index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-    end: () => setDropIndicator(null),
+  const { dragDropRef, isDragging, handlerId } = useTabDrag({
+    id: tab.id,
+    index,
+    moveTab,
+    updateInsertPosition: onUpdateInsertPosition
   });
 
-  const [, drop] = useDrop({
-    accept: 'TAB',
-    hover(item: DragItem, monitor) {
-      if (!ref.current || !monitor.isOver({ shallow: true })) {
-        setDropIndicator(null);
-        return;
-      }
-
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      if (dragIndex === hoverIndex) {
-        setDropIndicator(null);
-        return;
-      }
-
-      const hoverBoundingRect = ref.current.getBoundingClientRect();
-      const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientX = clientOffset!.x - hoverBoundingRect.left;
-
-      setDropIndicator(hoverClientX < hoverMiddleX ? 'left' : 'right');
-    },
-    drop(item: DragItem, monitor) {
-      if (!ref.current) return;
-
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      if (dragIndex === hoverIndex) return;
-
-      const hoverBoundingRect = ref.current.getBoundingClientRect();
-      const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientX = clientOffset!.x - hoverBoundingRect.left;
-
-      const finalIndex = hoverClientX < hoverMiddleX ? hoverIndex : hoverIndex + 1;
-
-      moveTab(dragIndex, finalIndex);
-      setDropIndicator(null);
-    },
-  });
+  const showLeftIndicator = insertPosition?.index === index && insertPosition?.side === 'left';
+  const showRightIndicator = insertPosition?.index === index && insertPosition?.side === 'right';
 
   const handleDoubleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -93,33 +51,27 @@ export const Tab: React.FC<TabProps> = ({
   };
 
   useEffect(() => {
-    if (!isDragging) {
-      setDropIndicator(null);
-    }
-  }, [isDragging]);
-
-  useEffect(() => {
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
       inputRef.current.select();
     }
   }, [isEditing]);
 
-  useEffect(() => {
-    return () => setDropIndicator(null);
-  }, []);
-
-  drag(drop(ref));
-
   return (
     <div
-      ref={ref}
-      className={`tab ${isActive ? 'active' : ''} ${isDragging ? 'dragging' : ''} ${
-        dropIndicator ? `drop-${dropIndicator}` : ''
-      }`}
+      ref={dragDropRef}
+      className={`tab ${isActive ? 'active' : ''} ${isDragging ? 'dragging' : ''}`}
+      data-handler-id={handlerId}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={() => onSelect(tab.id)}
       onDoubleClick={handleDoubleClick}
     >
+      {showLeftIndicator && (
+        <div className="tab-insert-indicator visible" style={{ left: -1 }} />
+      )}
+      {showRightIndicator && (
+        <div className="tab-insert-indicator visible" style={{ right: -1 }} />
+      )}
       {isEditing ? (
         <input
           ref={inputRef}

@@ -60,10 +60,6 @@ export function useTabs() {
     );
   };
 
-  const handleSelect = (id: string) => {
-    setActiveTab(id);
-  };
-
   return {
     tabs,
     activeTab,
@@ -71,6 +67,6 @@ export function useTabs() {
     handleClose,
     handleAdd,
     handleRename,
-    handleSelect,
+    handleSelect: setActiveTab,
   };
 } 
