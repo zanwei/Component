@@ -4,7 +4,7 @@ import { atom } from 'jotai';
 export type PanelType = 'dropdown' | 'icon' | 'multi-tab' | null;
 
 // 创建管理当前打开面板的 atom
-export const activePanelAtom = atom<'dropdown' | 'icon' | 'multi-tab'>('dropdown');
+export const activePanelAtom = atom<PanelType>('dropdown');
 
 // 创建面板位置的 atom
 export const panelPositionAtom = atom({
@@ -16,6 +16,6 @@ export const panelPositionAtom = atom({
 export const togglePanelAtom = atom(
     (get) => get(activePanelAtom),
     (_, set, panel: PanelType) => {
-        set(activePanelAtom, panel);
+        set(activePanelAtom, panel === get(activePanelAtom) ? null : panel);
     }
 ); 

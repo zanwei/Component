@@ -35,7 +35,9 @@ function App() {
                     )}
 
                     {activePanel === 'multi-tab' && (
-                        <MultiTab />
+                        <div className="multi-tab-container">
+                            <MultiTab />
+                        </div>
                     )}
                 </div>
             </div>
