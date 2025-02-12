@@ -1,0 +1,160 @@
+/* 将原来的 SimpleTabs.css 内容复制到这里 */
+
+/* 修改容器尺寸，使用变量便于统一管理 */
+:root {
+  --tab-font-size: 14px;
+  --tab-height: calc(var(--tab-font-size) * 2.5); /* 35px */
+  --container-padding: 8px;
+}
+
+.simple-tabs-container {
+  width: 1000px;
+  height: calc(var(--tab-height) + var(--container-padding) * 2);
+  background-color: #f0f0f0;
+  padding: var(--container-padding);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.tabs-scroll-container {
+  flex: 1;
+  margin-right: 32px; /* 为添加按钮留出空间 */
+  overflow: hidden; /* 改为 hidden，不再允许滚动 */
+}
+
+.tabs-wrapper {
+  display: flex;
+  height: var(--tab-height);
+  gap: 8px;
+  width: 100%;
+}
+
+.tab {
+  position: relative;
+  height: var(--tab-height);
+  min-width: 60px;
+  max-width: 200px;
+  width: 120px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+  flex: 1 1 0;
+}
+
+.tab:hover {
+  background-color: #d0d0d0;
+}
+
+.tab.active {
+  background-color: #ffffff;
+}
+
+.tab-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--tab-font-size);
+  line-height: var(--tab-font-size);
+  padding: 2px 0;
+}
+
+.tab-close {
+  width: var(--tab-font-size);
+  height: var(--tab-font-size);
+  border: none;
+  background: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  color: #666;
+  cursor: pointer;
+  font-size: var(--tab-font-size);
+  opacity: 0;
+  transition: opacity 0.2s, background-color 0.2s;
+  padding: 2px;
+}
+
+.tab:hover .tab-close,
+.tab.active .tab-close {
+  opacity: 1;
+}
+
+.tab-close:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.add-tab-button {
+  position: absolute;
+  right: var(--container-padding);
+  top: var(--container-padding);
+  width: var(--tab-height);
+  height: var(--tab-height);
+  border: none;
+  background-color: #e0e0e0;
+  color: #666;
+  font-size: var(--tab-font-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-tab-button:hover {
+  background-color: #d0d0d0;
+}
+
+.tab.dragging {
+  opacity: 0.5;
+  cursor: move;
+}
+
+.tab.drop-left::before,
+.tab.drop-right::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: #000000;
+  z-index: 1;
+}
+
+.tab.drop-left::before {
+  left: -5px;
+}
+
+.tab.drop-right::after {
+  right: -5px;
+}
+
+.tab-input {
+  flex: 1;
+  min-width: 0;
+  height: var(--tab-font-size);
+  border: none;
+  background: transparent;
+  font-size: var(--tab-font-size);
+  line-height: var(--tab-font-size);
+  padding: 2px 0;
+  margin: 0;
+  outline: none;
+  color: #000;
+}
+
+.tab-input:focus {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+}
+
+/* ... 其他样式 ... */ 

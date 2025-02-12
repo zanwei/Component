@@ -61,8 +61,8 @@
     background: none;
     border: 1px solid #e0e0e0;
     border-radius: 0.25rem;
-    width: 2rem;
-    height: 2rem;
+    width: 32px;
+    height: 32px;
     padding: 0;
     display: flex;
     align-items: center;
@@ -88,9 +88,9 @@
     flex: 1;
     border: 1px solid #d9d9d9;  /* 明确指定边框宽度为 1px */
     border-radius: 0.25rem;  /* 4px */
-    padding: 0.375rem 0.75rem 0.375rem 0.3rem;  /* 6px 12px 6px 4.8px */
+    padding: 0 8px;
     font-size: 0.875rem;  /* 14px */
-    height: 2rem;  /* 32px */
+    height: 32px;
     box-sizing: border-box;
 }
 
@@ -120,6 +120,9 @@
     max-height: 25rem;  /* 400px */
     overflow-y: auto;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-width: 200px;
+    max-width: 280px;
+    overflow: hidden;
 }
 
 /* 自定义滚动条样式 */
@@ -143,8 +146,9 @@
 .dropdown-type-section, .dropdown-item {
     display: flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;  /* 4px 12px */
-    height: 1.75rem;  /* 28px 内容高度 + 8px padding = 36px 总高度 */
+    padding: 6px 12px;
+    height: 30px;
+    box-sizing: border-box;
 }
 
 .type-label {
@@ -175,7 +179,10 @@
 }
 
 .dropdown-item {
+    padding: 6px 12px;
+    height: 30px;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .dropdown-item:hover {
@@ -183,11 +190,12 @@
 }
 
 .item-icon {
-    width: 1.5rem;  /* 24px */
+    width: 16px;  /* 调整图标容器大小 */
+    height: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 0.5rem;  /* 8px */
+    margin-right: 8px;
     color: #666;
 }
 
@@ -197,8 +205,8 @@
 }
 
 .icon-small {
-    width: 1rem;  /* 16px */
-    height: 1rem;  /* 16px */
+    width: 14px;  /* 稍微调小一点 */
+    height: 14px;
 }
 
 .icon-medium {
@@ -217,27 +225,30 @@
 }
 
 .dropdown-input-section {
+    padding: 8px;
     display: flex;
     align-items: center;
-    padding: 0.5rem 0.5rem 0.125rem 0.5rem;  /* 8px 8px 2px 8px */
-    background: #fff;
-    border-radius: 0.375rem 0.375rem 0 0;  /* 6px 6px 0 0 */
+    gap: 4px;  /* 调整为 4px 的间距 */
 }
 
 .dropdown-group {
-    /* 移除 padding: 4px 0; */
+    padding: 2px 0;  /* 减小分组间距 */
 }
 
 .dropdown-divider {
-    height: 0.5px;
+    height: 0.5px;  /* 改为 0.5px */
     background-color: #E6E6E6;
-    /* 移除 margin，因为 item 本身已经有 padding 了 */
+    margin: 4px 0;  /* 保持 4px 的间距 */
 }
 
 /* 添加删除选项的悬浮效果 */
+.delete-item:hover {
+    background-color: rgba(253, 55, 55, 0.05);  /* 调整红色背景的透明度 */
+}
+
 .delete-item:hover .item-icon,
 .delete-item:hover .item-label {
-    color: #FD3737 !important;
+    color: #FD3737;
 }
 
 /* 添加图标面板容器的样式 */
