@@ -1,11 +1,11 @@
 # Dependencies
-node_modules/
+node_modules
 .pnp
 .pnp.js
 
 # Production
-dist/
-build/
+dist
+build
 
 # Misc
 .DS_Store
@@ -20,5 +20,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor
-.vscode/
-.idea/ 
+.vscode
+.idea 

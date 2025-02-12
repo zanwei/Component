@@ -9,9 +9,14 @@
     box-shadow: 
         0 8px 14px rgba(0, 0, 0, 0.08),
         0 1px 6px rgba(0, 0, 0, 0.16);
-    padding: 12px;
+    padding: 12px;  /* 默认 padding */
     /* 添加一些动画效果 */
     animation: fadeIn 0.2s ease-out;
+}
+
+/* No result 状态下的 padding */
+.icon-panel.no-result {
+    padding: 12px 12px 8px 12px;  /* 只改变底部 padding */
 }
 
 /* 添加淡入动画 */
@@ -83,6 +88,14 @@
     font-size: 14px;
     background: #FFFFFF;
     box-sizing: border-box;
+    /* 添加过渡效果 */
+    transition: border-color 0.2s ease;
+}
+
+/* 添加焦点状态样式 */
+.search-input:focus {
+    outline: none;
+    border: 1.5px solid #1e96eb;  /* 明确指定边框宽度为 1px */
 }
 
 .search-input::placeholder {
@@ -96,9 +109,13 @@
 
 .section-title {
     font-size: 14px;
-    font-weight: 500;
-    color: #7A7A7A;  /* 从 #666 改为 #7A7A7A */
-    margin-bottom: 12px;
+    color: #7A7A7A;
+    margin: 14px 0px 12px;  /* 默认边距 */
+}
+
+/* 当父元素只有一个子元素时（No result 情况）调整下边距 */
+.panel-section:only-child .section-title {
+    margin-bottom: 4px;  /* 从 8px 改为 4px */
 }
 
 /* 响应式图标网格 */

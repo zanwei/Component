@@ -31,10 +31,12 @@ export const IconPanel: React.FC<IconPanelProps> = ({ onSelect, recentIcons }) =
         icon.name.toLowerCase().includes(searchText.toLowerCase())
     );
 
+    const hasSearchResults = filteredIcons.length > 0;
+
     return (
         <AnimatePresence>
             <motion.div 
-                className="icon-panel bg-white rounded-lg p-4"
+                className={`icon-panel bg-white rounded-lg ${!hasSearchResults ? 'no-result' : ''}`}
                 initial={{ opacity: 0, y: -8, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -53,39 +55,47 @@ export const IconPanel: React.FC<IconPanelProps> = ({ onSelect, recentIcons }) =
                         onChange={(e) => setSearchText(e.target.value)}
                     />
                 </div>
-                {sortedRecentIcons.length > 0 && (
+                {!hasSearchResults ? (
                     <div className="panel-section">
-                        <h3 className="section-title">Recent</h3>
-                        <div className="icon-grid">
-                            {sortedRecentIcons.map(recent => {
-                                const iconData = allIcons.find(i => i.name === recent.name);
-                                return iconData && (
+                        <h3 className="section-title">No result</h3>
+                    </div>
+                ) : (
+                    <>
+                        {sortedRecentIcons.length > 0 && !searchText && (
+                            <div className="panel-section">
+                                <h3 className="section-title">Recent</h3>
+                                <div className="icon-grid">
+                                    {sortedRecentIcons.map(recent => {
+                                        const iconData = allIcons.find(i => i.name === recent.name);
+                                        return iconData && (
+                                            <motion.button
+                                                key={recent.name}
+                                                className="icon-item"
+                                                onClick={() => handleIconSelect(recent.name as IconName)}
+                                            >
+                                                {iconData.icon}
+                                            </motion.button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                        <div className="panel-section">
+                            <h3 className="section-title">Icons</h3>
+                            <div className="icon-grid">
+                                {filteredIcons.map(({ name, icon }) => (
                                     <motion.button
-                                        key={recent.name}
+                                        key={name}
                                         className="icon-item"
-                                        onClick={() => handleIconSelect(recent.name as IconName)}
+                                        onClick={() => handleIconSelect(name)}
                                     >
-                                        {iconData.icon}
+                                        {icon}
                                     </motion.button>
-                                );
-                            })}
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    </>
                 )}
-                <div className="panel-section">
-                    <h3 className="section-title">Icons</h3>
-                    <div className="icon-grid">
-                        {filteredIcons.map(({ name, icon }) => (
-                            <motion.button
-                                key={name}
-                                className="icon-item"
-                                onClick={() => handleIconSelect(name)}
-                            >
-                                {icon}
-                            </motion.button>
-                        ))}
-                    </div>
-                </div>
             </motion.div>
         </AnimatePresence>
     );
