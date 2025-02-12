@@ -1,0 +1,48 @@
+.jotai-panel {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.jotai-header {
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.jotai-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.jotai-button {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.jotai-button:hover {
+    background: #f5f5f5;
+}
+
+.jotai-button.active {
+    background: #e6f4ff;
+    border-color: #1e96eb;
+    color: #1e96eb;
+} 

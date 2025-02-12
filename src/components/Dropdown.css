@@ -7,13 +7,14 @@
     padding: 0.5rem 0.75rem;  /* 8px 12px */
     border: 1px solid #dcdfe6;
     border-radius: 0.25rem;  /* 4px */
-    background-color: #fff;
-    width: 12.5rem;  /* 200px */
+    background: white;  /* 只保留白色背景给下拉菜单本身 */
+    width: 390px;
     font-size: 0.875rem;  /* 14px */
     color: #606266;
     cursor: pointer;
     outline: none;
     transition: border-color 0.2s;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(0, 0, 0, 0.16);
 }
 
 .dropdown:hover {
@@ -33,10 +34,12 @@
     padding: 0.5rem 0.75rem;  /* 8px 12px */
 }
 
-.dropdown-container {
+.dropdown-container,
+.dropdown-wrapper {
     position: relative;  /* 确保容器有相对定位 */
     width: 14.375rem;  /* 230px */
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: transparent;  /* 确保容器是透明的 */
 }
 
 .dropdown-header {
