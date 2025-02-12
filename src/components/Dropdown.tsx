@@ -12,7 +12,7 @@ import {
 import './Dropdown.css';
 import { IconPanel } from './IconPanel';
 import { IconName, icons } from '../assets/icons';
-import BaseballIcon from '../assets/icons/baseball.svg';
+import BaseballIcon from '../assets/icons/baseball.svg?react';
 
 interface DropdownProps {
     value: string;
@@ -112,11 +112,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
                             {SelectedIcon ? (
                                 <SelectedIcon className="selected-icon" />
                             ) : (
-                                <BaseballIconComponent 
+                                <BaseballIcon 
                                     className="selected-icon"
                                     width={24}
                                     height={24}
-                                    fill="currentColor"
+                                    style={{ color: 'currentColor' }}
                                 />
                             )}
                         </button>
