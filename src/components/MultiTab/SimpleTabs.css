@@ -97,6 +97,10 @@
   opacity: 1;
 }
 
+.tab.active .tab-close {
+  color: #1e96eb;
+}
+
 .tab-close:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
