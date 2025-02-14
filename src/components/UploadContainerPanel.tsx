@@ -3,7 +3,7 @@ import {
   FileIcon, ImageIcon, FileTextIcon, 
   FileSpreadsheetIcon, FileTypeIcon, FileVideoIcon,
   FileAudioIcon, FileJsonIcon, FileCodeIcon,
-  MoreVertical, Download, Trash2
+  MoreVertical, Download, Trash2, Loader2
 } from 'lucide-react';
 import './UploadContainerPanel.css';
 
@@ -11,6 +11,7 @@ interface UploadContainerPanelProps {
   files: Array<{
     file: File;
     previewUrl: string | null;
+    loading?: boolean;
   }>;
   onAddMore: () => void;
   onDelete: (index: number) => void;
@@ -150,25 +151,33 @@ export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
       <div className="upload-files-list">
         {files.map((item, index) => (
           <div key={`${item.file.name}-${index}`} className="upload-file-item">
-            {item.previewUrl ? (
-              <div className="upload-preview">
-                <img src={item.previewUrl} alt="Preview" className="upload-preview-image" />
+            {item.loading ? (
+              <div className="upload-file-info loading">
+                <Loader2 className="upload-loading-icon" />
+                <span className="upload-file-name">Loading...</span>
               </div>
             ) : (
-              <div className="upload-file-info">
-                {getFileIcon(getFileType(item.file))}
-                <span className="upload-file-name">
-                  {formatFileName(item.file.name)}
-                </span>
-              </div>
+              item.previewUrl ? (
+                <div className="upload-preview">
+                  <img src={item.previewUrl} alt="Preview" className="upload-preview-image" />
+                </div>
+              ) : (
+                <div className="upload-file-info">
+                  {getFileIcon(getFileType(item.file))}
+                  <span className="upload-file-name">
+                    {formatFileName(item.file.name)}
+                  </span>
+                </div>
+              )
             )}
             <button 
               className="upload-file-menu-trigger"
               onClick={(e) => handleMenuClick(index, e)}
+              disabled={item.loading}
             >
               <MoreVertical size={16} />
             </button>
-            {activeMenu === index && (
+            {activeMenu === index && !item.loading && (
               <div className="upload-file-menu">
                 <button 
                   className="upload-file-menu-item"
