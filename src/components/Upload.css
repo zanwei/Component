@@ -1,0 +1,72 @@
+.upload-container {
+  width: 390px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(0, 0, 0, 0.16);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upload-button {
+  width: 100%;
+  height: 40px;
+  background-color: #1e96eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upload-button:hover {
+  background-color: #1a85d4;
+}
+
+.upload-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.upload-size-limit {
+  color: #666;
+  font-size: 14px;
+}
+
+.upload-pro-link {
+  color: #1e96eb;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.upload-pro-link:hover {
+  text-decoration: underline;
+}
+
+.upload-input {
+  display: none;
+}
+
+/* Loading 状态 */
+.upload-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  color: #666;
+}
+
+.upload-loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+} 
