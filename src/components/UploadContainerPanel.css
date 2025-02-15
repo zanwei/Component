@@ -21,6 +21,21 @@
   display: flex;
   align-items: center;
   min-height: 40px;
+  cursor: move;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  touch-action: none;
+}
+
+.upload-file-item.dragging {
+  opacity: 0.5;
+  transform: scale(1.02);
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.upload-file-item:hover {
+  background: #f9f9f9;
+  border-radius: 6px;
 }
 
 .upload-file-info {

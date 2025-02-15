@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   FileIcon, ImageIcon, FileTextIcon, 
   FileSpreadsheetIcon, FileTypeIcon, FileVideoIcon,
@@ -6,6 +6,8 @@ import {
   MoreVertical, Download, Trash2, Loader2
 } from 'lucide-react';
 import './UploadContainerPanel.css';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 interface UploadContainerPanelProps {
   files: Array<{
@@ -15,14 +17,125 @@ interface UploadContainerPanelProps {
   }>;
   onAddMore: () => void;
   onDelete: (index: number) => void;
+  onMove: (dragIndex: number, hoverIndex: number) => void;
 }
 
 export type FileType = 'document' | 'image' | 'audio' | 'video' | 'data' | 'code' | 'other';
 
+interface DragItem {
+  index: number;
+  type: string;
+}
+
+const FileItem: React.FC<{
+  item: UploadContainerPanelProps['files'][0];
+  index: number;
+  onDelete: (index: number) => void;
+  onMove: (dragIndex: number, hoverIndex: number) => void;
+  getFileIcon: (fileType: FileType) => JSX.Element;
+  getFileType: (file: File) => FileType;
+  formatFileName: (filename: string) => string;
+  handleDownload: (file: File) => void;
+}> = ({ item, index, onDelete, onMove, getFileIcon, getFileType, formatFileName, handleDownload }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [activeMenu, setActiveMenu] = useState<boolean>(false);
+
+  const [{ isDragging }, drag] = useDrag({
+    type: 'FILE_ITEM',
+    item: { index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+    canDrag: !item.loading,
+  });
+
+  const [, drop] = useDrop({
+    accept: 'FILE_ITEM',
+    hover(dragItem: DragItem, monitor) {
+      if (!ref.current) return;
+      const dragIndex = dragItem.index;
+      const hoverIndex = index;
+      if (dragIndex === hoverIndex) return;
+
+      const hoverRect = ref.current.getBoundingClientRect();
+      const hoverMiddleY = (hoverRect.bottom - hoverRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset!.y - hoverRect.top;
+
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
+
+      onMove(dragIndex, hoverIndex);
+      dragItem.index = hoverIndex;
+    },
+  });
+
+  drag(drop(ref));
+
+  return (
+    <div 
+      ref={ref}
+      className={`upload-file-item ${isDragging ? 'dragging' : ''}`}
+    >
+      {item.loading ? (
+        <div className="upload-file-info loading">
+          <Loader2 className="upload-loading-icon" />
+          <span className="upload-file-name">Loading...</span>
+        </div>
+      ) : (
+        item.previewUrl ? (
+          <div className="upload-preview">
+            <img src={item.previewUrl} alt="Preview" className="upload-preview-image" />
+          </div>
+        ) : (
+          <div className="upload-file-info">
+            {getFileIcon(getFileType(item.file))}
+            <span className="upload-file-name">
+              {formatFileName(item.file.name)}
+            </span>
+          </div>
+        )
+      )}
+      <button 
+        className="upload-file-menu-trigger"
+        onClick={(e) => e.stopPropagation()}
+        disabled={item.loading}
+      >
+        <MoreVertical size={16} />
+      </button>
+      {activeMenu && !item.loading && (
+        <div className="upload-file-menu">
+          <button 
+            className="upload-file-menu-item"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDownload(item.file);
+            }}
+          >
+            <Download size={16} />
+            Download
+          </button>
+          <button 
+            className="upload-file-menu-item"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(index);
+            }}
+          >
+            <Trash2 size={16} />
+            Delete
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
   files,
   onAddMore,
-  onDelete
+  onDelete,
+  onMove
 }) => {
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
 
@@ -147,61 +260,28 @@ export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
   }, []);
 
   return (
-    <div className="upload-container-panel">
-      <div className="upload-files-list">
-        {files.map((item, index) => (
-          <div key={`${item.file.name}-${index}`} className="upload-file-item">
-            {item.loading ? (
-              <div className="upload-file-info loading">
-                <Loader2 className="upload-loading-icon" />
-                <span className="upload-file-name">Loading...</span>
-              </div>
-            ) : (
-              item.previewUrl ? (
-                <div className="upload-preview">
-                  <img src={item.previewUrl} alt="Preview" className="upload-preview-image" />
-                </div>
-              ) : (
-                <div className="upload-file-info">
-                  {getFileIcon(getFileType(item.file))}
-                  <span className="upload-file-name">
-                    {formatFileName(item.file.name)}
-                  </span>
-                </div>
-              )
-            )}
-            <button 
-              className="upload-file-menu-trigger"
-              onClick={(e) => handleMenuClick(index, e)}
-              disabled={item.loading}
-            >
-              <MoreVertical size={16} />
-            </button>
-            {activeMenu === index && !item.loading && (
-              <div className="upload-file-menu">
-                <button 
-                  className="upload-file-menu-item"
-                  onClick={() => handleDownload(item.file)}
-                >
-                  <Download size={16} />
-                  Download
-                </button>
-                <button 
-                  className="upload-file-menu-item"
-                  onClick={() => onDelete(index)}
-                >
-                  <Trash2 size={16} />
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
+    <DndProvider backend={HTML5Backend}>
+      <div className="upload-container-panel">
+        <div className="upload-files-list">
+          {files.map((item, index) => (
+            <FileItem
+              key={`${item.file.name}-${index}`}
+              item={item}
+              index={index}
+              onDelete={onDelete}
+              onMove={onMove}
+              getFileIcon={getFileIcon}
+              getFileType={getFileType}
+              formatFileName={formatFileName}
+              handleDownload={handleDownload}
+            />
+          ))}
+        </div>
+        <button className="upload-add-more" onClick={onAddMore}>
+          <span className="upload-add-more-icon">+</span>
+          Add a file or image
+        </button>
       </div>
-      <button className="upload-add-more" onClick={onAddMore}>
-        <span className="upload-add-more-icon">+</span>
-        Add a file or image
-      </button>
-    </div>
+    </DndProvider>
   );
 }; 

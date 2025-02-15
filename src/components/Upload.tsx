@@ -80,6 +80,15 @@ export const Upload: React.FC<UploadProps> = ({
     return filename.split('.').pop()?.toLowerCase() || '';
   };
 
+  const handleMoveFile = (dragIndex: number, hoverIndex: number) => {
+    setUploadedFiles(prevFiles => {
+      const newFiles = [...prevFiles];
+      const [draggedFile] = newFiles.splice(dragIndex, 1);
+      newFiles.splice(hoverIndex, 0, draggedFile);
+      return newFiles;
+    });
+  };
+
   return (
     <>
       {status === 'idle' && (
@@ -119,6 +128,7 @@ export const Upload: React.FC<UploadProps> = ({
           onDelete={(index) => {
             setUploadedFiles(prev => prev.filter((_, i) => i !== index));
           }}
+          onMove={handleMoveFile}
         />
       )}
 
