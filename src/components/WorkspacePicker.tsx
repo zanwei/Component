@@ -27,13 +27,13 @@ interface WorkspacePickerProps {
 const STATIC_SERVERS: WorkspaceItem[] = [
   {
     id: 'static-1',
-    title: 'Demo Workspace',
+    title: 'AFFiNE',
     type: 'server',
     color: generatePastelColor()
   },
   {
     id: 'static-2',
-    title: 'Demo Workspace',
+    title: 'ewrerrewrewrewrewr',
     type: 'server',
     color: generatePastelColor()
   }
@@ -42,19 +42,19 @@ const STATIC_SERVERS: WorkspaceItem[] = [
 const STATIC_CLOUD_WORKSPACES: WorkspaceItem[] = [
   {
     id: 'cloud-1',
-    title: 'Demo Workspace',
+    title: 'zanweis workspace',
     type: 'cloud',
     color: generatePastelColor()
   },
   {
     id: 'cloud-2',
-    title: 'Demo Workspace',
+    title: 'AFFiNE Blog',
     type: 'cloud',
     color: generatePastelColor()
   },
   {
     id: 'cloud-3',
-    title: 'Demo Workspace',
+    title: 'Landing Page',
     type: 'cloud',
     color: generatePastelColor()
   }
@@ -63,19 +63,13 @@ const STATIC_CLOUD_WORKSPACES: WorkspaceItem[] = [
 const STATIC_LOCAL_WORKSPACES: WorkspaceItem[] = [
   {
     id: 'local-1',
-    title: 'Demo Workspace',
+    title: 'Local workspace',
     type: 'local',
     color: generatePastelColor()
   },
   {
     id: 'local-2',
-    title: 'Demo Workspace',
-    type: 'local',
-    color: generatePastelColor()
-  },
-  {
-    id: 'local-3',
-    title: 'Demo Workspace',
+    title: 'Blog archive',
     type: 'local',
     color: generatePastelColor()
   }
@@ -189,10 +183,14 @@ export const WorkspacePicker: React.FC<WorkspacePickerProps> = ({
         {/* AFFiNE Cloud Section */}
         <div className="workspace-section cloud-section">
           <div className="workspace-header">
-            <Cloud size={16} />
-            <span>AFFiNE Cloud</span>
+            <div className="workspace-header-icon">
+              <Cloud size={18} color="#7A7A7A" />
+            </div>
+            <div className="workspace-header-content">
+              <span className="workspace-header-title">AFFiNE Cloud</span>
+              <span className="workspace-header-subtitle">{email}</span>
+            </div>
           </div>
-          <div className="workspace-email">{email}</div>
           <div className="workspace-list">
             {cloudWorkspaces.map((workspace, index) => (
               <WorkspaceItem
@@ -211,8 +209,12 @@ export const WorkspacePicker: React.FC<WorkspacePickerProps> = ({
         {/* Local Storage Section */}
         <div className="workspace-section local-section">
           <div className="workspace-header">
-            <Monitor size={16} />
-            <span>Local Storage</span>
+            <div className="workspace-header-icon">
+              <Monitor size={18} color="#7A7A7A" />
+            </div>
+            <div className="workspace-header-content">
+              <span className="workspace-header-title">Local Storage</span>
+            </div>
           </div>
           <div className="workspace-list">
             {localWorkspaces.map((workspace, index) => (
@@ -232,10 +234,14 @@ export const WorkspacePicker: React.FC<WorkspacePickerProps> = ({
         {/* Server Section */}
         <div className="workspace-section server-section">
           <div className="workspace-header">
-            <Server size={16} />
-            <span>192.168.2.120:3000</span>
+            <div className="workspace-header-icon">
+              <Server size={18} color="#7A7A7A" />
+            </div>
+            <div className="workspace-header-content">
+              <span className="workspace-header-title">192.168.2.120:3000</span>
+              <span className="workspace-header-subtitle">{email}</span>
+            </div>
           </div>
-          <div className="workspace-email">{email}</div>
           <div className="workspace-list">
             {serverWorkspaces.map((workspace, index) => (
               <WorkspaceItem

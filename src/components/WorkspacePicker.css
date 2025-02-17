@@ -27,16 +27,24 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 8px 8px 4px 3px;
+}
+
+.workspace-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.workspace-header-title {
   color: #333;
   font-size: 14px;
   font-weight: 500;
-  padding: 8px 8px 4px 8px;
 }
 
-.workspace-email {
+.workspace-header-subtitle {
   color: #666;
   font-size: 14px;
-  padding: 0 8px 0 8px;
 }
 
 .workspace-list {
@@ -151,6 +159,16 @@
 
 .workspace-action-btn,
 .workspace-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workspace-header-icon {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid #e6e6e6;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
