@@ -11,16 +11,19 @@ interface UploadProps {
 
 type UploadStatus = 'idle' | 'loading' | 'complete';
 
+interface UploadedFile {
+  file: File;
+  previewUrl: string | null;
+  loading?: boolean;
+}
+
 export const Upload: React.FC<UploadProps> = ({ 
   maxSize = 100,
   onFileSelect 
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<UploadStatus>('idle');
-  const [uploadedFiles, setUploadedFiles] = useState<Array<{
-    file: File;
-    previewUrl: string | null;
-  }>>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
   // 监听文件列表变化，当列表为空时重置状态
   useEffect(() => {
@@ -28,45 +31,6 @@ export const Upload: React.FC<UploadProps> = ({
       setStatus('idle');
     }
   }, [uploadedFiles.length, status]);
-
-  const fileTypes = {
-    document: [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-powerpoint',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'text/markdown'
-    ],
-    image: [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'image/svg+xml',
-      'image/bmp',
-      'image/webp'
-    ],
-    audio: [
-      'audio/mpeg',
-      'audio/wav',
-      'audio/mp4'
-    ],
-    video: [
-      'video/mp4',
-      'video/quicktime',
-      'video/webm'
-    ],
-    data: [
-      'text/csv',
-      'application/json'
-    ],
-    code: [
-      'text/html',
-      'text/plain'
-    ]
-  };
 
   const handleClick = () => {
     inputRef.current?.click();
@@ -87,7 +51,14 @@ export const Upload: React.FC<UploadProps> = ({
       return;
     }
 
-    setStatus('loading');
+    // 添加新文件到列表，标记为 loading
+    const newFile: UploadedFile = {
+      file,
+      previewUrl: null,
+      loading: true
+    };
+    setUploadedFiles(prev => [...prev, newFile]);
+    setStatus('complete');
 
     // 模拟上传过程
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -98,13 +69,24 @@ export const Upload: React.FC<UploadProps> = ({
       previewUrl = URL.createObjectURL(file);
     }
 
-    setUploadedFiles(prev => [...prev, { file, previewUrl }]);
-    setStatus('complete');
+    // 更新文件状态，移除 loading 标记
+    setUploadedFiles(prev => prev.map(f => 
+      f.file === file ? { ...f, previewUrl, loading: false } : f
+    ));
     onFileSelect?.(file);
   };
 
   const getFileExtension = (filename: string) => {
     return filename.split('.').pop()?.toLowerCase() || '';
+  };
+
+  const handleMoveFile = (dragIndex: number, hoverIndex: number) => {
+    setUploadedFiles(prevFiles => {
+      const newFiles = [...prevFiles];
+      const [draggedFile] = newFiles.splice(dragIndex, 1);
+      newFiles.splice(hoverIndex, 0, draggedFile);
+      return newFiles;
+    });
   };
 
   return (
@@ -118,7 +100,12 @@ export const Upload: React.FC<UploadProps> = ({
             <span className="upload-size-limit">
               The maximum size per file is {maxSize}MB
             </span>
-            <a href="#" className="upload-pro-link">
+            <a 
+              href="https://affine.pro/pricing" 
+              className="upload-pro-link"
+              target="_blank"  // 在新标签页打开
+              rel="noopener noreferrer"  // 安全性考虑
+            >
               Upgrade to Pro
             </a>
           </div>
@@ -141,6 +128,7 @@ export const Upload: React.FC<UploadProps> = ({
           onDelete={(index) => {
             setUploadedFiles(prev => prev.filter((_, i) => i !== index));
           }}
+          onMove={handleMoveFile}
         />
       )}
 
@@ -149,7 +137,6 @@ export const Upload: React.FC<UploadProps> = ({
         type="file"
         className="upload-input"
         onChange={handleFileChange}
-        accept={Object.values(fileTypes).flat().join(',')}
       />
     </>
   );
