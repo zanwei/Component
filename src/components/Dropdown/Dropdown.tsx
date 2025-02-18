@@ -10,8 +10,8 @@ import {
     ChevronRightIcon
 } from '@heroicons/react/24/outline';
 import './Dropdown.css';
-import { IconPanel } from './IconPanel';
-import { IconName, icons } from '../assets/icons';
+import { IconPanel } from '../IconPanel';
+import { IconName, icons } from '../../assets/icons';
 
 interface DropdownProps {
     value: string;

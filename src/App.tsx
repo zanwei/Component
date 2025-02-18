@@ -1,10 +1,12 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import { Dropdown } from './components/Dropdown';
-import { IconPanelB } from './components/IconPanelB';
+import { IconPanelB } from './components/IconPanel';
 import { JotaiPanel } from './components/JotaiPanel';
 import { MultiTab } from './components/MultiTab';
 import { activePanelAtom } from './store/atoms';
+import { Upload } from './components/Upload';
+import { WorkspacePicker } from './components/Workspace';
 import './App.css';
 
 function App() {
@@ -19,9 +21,7 @@ function App() {
             <div className="content-wrapper">
                 <div className="panel-container">
                     {activePanel === 'dropdown' && (
-                        <div className="app">
-                            <Dropdown onClose={() => {}} />
-                        </div>
+                        <Dropdown value="" onChange={() => {}} />
                     )}
 
                     {activePanel === 'icon' && (
@@ -36,6 +36,23 @@ function App() {
                     {activePanel === 'multi-tab' && (
                         <div className="multi-tab-container">
                             <MultiTab />
+                        </div>
+                    )}
+
+                    {activePanel === 'upload' && (
+                        <div className="upload-container">
+                            <Upload 
+                                maxSize={100}
+                                onFileSelect={(file) => {
+                                    console.log('Selected file:', file);
+                                }}
+                            />
+                        </div>
+                    )}
+
+                    {activePanel === 'workspace' && (
+                        <div className="workspace-container">
+                            <WorkspacePicker />
                         </div>
                     )}
                 </div>

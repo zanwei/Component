@@ -29,6 +29,18 @@ export const JotaiPanel = () => {
                 >
                     Multi Tab
                 </button>
+                <button 
+                    className={`jotai-button ${activePanel === 'upload' ? 'active' : ''}`}
+                    onClick={() => togglePanel('upload')}
+                >
+                    Upload Panel
+                </button>
+                <button 
+                    className={`jotai-button ${activePanel === 'workspace' ? 'active' : ''}`}
+                    onClick={() => togglePanel('workspace')}
+                >
+                    Workspace Picker
+                </button>
             </div>
         </div>
     );

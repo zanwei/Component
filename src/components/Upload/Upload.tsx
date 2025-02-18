@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import { UploadContainerPanel } from './UploadContainerPanel';
 import './Upload.css';
-import type { FileType } from './UploadContainerPanel';  // 导入 FileType 类型
+import type { FileType } from './UploadContainerPanel';  // 修改路径
 
 interface UploadProps {
   maxSize?: number; // 单位：MB
@@ -89,6 +89,10 @@ export const Upload: React.FC<UploadProps> = ({
     });
   };
 
+  const handleDelete = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <>
       {status === 'idle' && (
@@ -125,9 +129,7 @@ export const Upload: React.FC<UploadProps> = ({
         <UploadContainerPanel
           files={uploadedFiles}
           onAddMore={handleClick}
-          onDelete={(index) => {
-            setUploadedFiles(prev => prev.filter((_, i) => i !== index));
-          }}
+          onDelete={handleDelete}
           onMove={handleMoveFile}
         />
       )}

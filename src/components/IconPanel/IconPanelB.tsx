@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { icons, IconName, SearchIcon } from '../assets/icons';
+import { icons, IconName, SearchIcon } from '../../assets/icons';
 import './IconPanelB.css';
 
 interface IconPanelBProps {

@@ -9,26 +9,41 @@
 }
 
 .app {
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
     position: relative;
 }
 
 /* 新增包装器，占满整个视口 */
 .content-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    flex: 1;
     display: flex;
-    justify-content: center;
     align-items: center;
-    pointer-events: none; /* 允许点击穿透到底层 */
+    justify-content: center;
 }
 
 /* 面板容器 */
 .panel-container {
-    pointer-events: auto; /* 恢复面板的点击事件 */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 确保每个面板容器都是绝对定位 */
+.upload-container,
+.workspace-container,
+.multi-tab-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 移除多余的 .app 嵌套 */
+.panel-container .app {
+    position: absolute;
 }
 
 .multi-tab-container {
