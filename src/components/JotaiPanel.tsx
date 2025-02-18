@@ -1,8 +1,9 @@
+import * as React from 'react';
 import { useAtom } from 'jotai';
 import { activePanelAtom, togglePanelAtom } from '../store/atoms';
 import './JotaiPanel.css';
 
-export const JotaiPanel = () => {
+export const JotaiPanel: React.FC = () => {
     const [activePanel] = useAtom(activePanelAtom);
     const [, togglePanel] = useAtom(togglePanelAtom);
 
