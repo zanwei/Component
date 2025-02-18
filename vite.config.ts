@@ -25,7 +25,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-    }
+    },
+    dedupe: ['react', 'react-dom']
   },
   server: {
     port: 3002,
@@ -38,14 +39,42 @@ export default defineConfig({
   optimizeDeps: {
     include: ['jotai', 'react', 'react-dom'],
     exclude: ['@heroicons/react/24/outline'],
+    esbuildOptions: {
+      mainFields: ['module', 'main'],
+      resolveExtensions: ['.js', '.jsx', '.ts', '.tsx']
+    }
   },
   build: {
+    modulePreload: true,
+    target: 'esnext',
+    minify: 'terser',
+    cssCodeSplit: true,
+    sourcemap: true,
     commonjsOptions: {
       include: [/node_modules/],
       transformMixedEsModules: true
     },
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      },
       output: {
+        format: 'es',
+        entryFileNames: '[name].[hash].js',
+        chunkFileNames: '[name].[hash].js',
+        assetFileNames: '[name].[hash].[ext]',
+        inlineDynamicImports: false,
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'react';
+            }
+            if (id.includes('jotai')) {
+              return 'jotai';
+            }
+            return 'vendor';
+          }
+        }
       }
     }
   },
