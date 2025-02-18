@@ -1,6 +1,6 @@
 import React from 'react';
 import { atom, useAtom } from 'jotai';
-import { WorkspacePicker } from '../WorkspacePicker';
+import { WorkspacePicker } from '../Workspace/WorkspacePicker';
 
 export const workspacePanelAtom = atom({
   isVisible: false,

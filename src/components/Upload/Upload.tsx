@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import { UploadContainerPanel } from './UploadContainerPanel';
 import './Upload.css';
-import type { FileType } from './UploadContainerPanel';  // 修改路径
 
 interface UploadProps {
   maxSize?: number; // 单位：MB

@@ -1,6 +1,6 @@
 import React from 'react';
 import { atom, useAtom } from 'jotai';
-import { UploadContainerPanel } from '../UploadContainerPanel';
+import { UploadContainerPanel } from '../Upload/UploadContainerPanel';
 
 export const uploadPanelAtom = atom({
   isVisible: false,

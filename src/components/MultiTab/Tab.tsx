@@ -17,7 +17,7 @@ export const Tab: React.FC<TabProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(tab.title);
 
-  const { dragDropRef, isDragging, handlerId } = useTabDrag({
+  const { ref: dragDropRef, isDragging } = useTabDrag({
     id: tab.id,
     index,
     moveTab,
@@ -61,7 +61,6 @@ export const Tab: React.FC<TabProps> = ({
     <div
       ref={dragDropRef}
       className={`tab ${isActive ? 'active' : ''} ${isDragging ? 'dragging' : ''}`}
-      data-handler-id={handlerId}
       style={{ opacity: isDragging ? 0.5 : 1 }}
       onClick={() => onSelect(tab.id)}
       onDoubleClick={handleDoubleClick}
