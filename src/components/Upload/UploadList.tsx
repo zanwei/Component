@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FileIcon, MoreVertical, Download, Trash2, Loader } from 'lucide-react';
+import { FileIcon, MoreVertical, Download, Trash2 } from 'lucide-react';
 import './UploadContainerPanel.css';
 
 interface UploadListProps {
