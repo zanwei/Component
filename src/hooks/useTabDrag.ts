@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import type { Identifier } from 'dnd-core';
 
 interface DragItem {
   id: string;
@@ -11,10 +10,9 @@ interface UseTabDragProps {
   id: string;
   index: number;
   moveTab: (dragIndex: number, hoverIndex: number) => void;
-  updateInsertPosition: (position: { index: number; side: 'left' | 'right' } | null) => void;
 }
 
-export const useTabDrag = ({ id, index, moveTab, updateInsertPosition }: UseTabDragProps) => {
+export const useTabDrag = ({ id, index, moveTab }: UseTabDragProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, drag] = useDrag({
@@ -27,7 +25,7 @@ export const useTabDrag = ({ id, index, moveTab, updateInsertPosition }: UseTabD
 
   const [, drop] = useDrop({
     accept: 'TAB',
-    hover: (item: DragItem, monitor) => {
+    hover: (item: DragItem) => {
       if (!ref.current) return;
       
       const dragIndex = item.index;

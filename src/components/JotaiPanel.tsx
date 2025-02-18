@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAtom } from 'jotai';
 import { activePanelAtom, togglePanelAtom } from '../store/atoms';
 import './JotaiPanel.css';

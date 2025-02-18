@@ -1,7 +1,6 @@
 import React from 'react';
 import { atom, useAtom } from 'jotai';
 import { MultiTab } from '../MultiTab';
-import type { TabItem } from '../MultiTab';
 
 export const multiTabPanelAtom = atom({
   isVisible: false,

@@ -72,6 +72,10 @@ const FileItem: React.FC<{
 
   drag(drop(ref));
 
+  const handleMenuClick = () => {
+    setActiveMenu(!activeMenu);
+  };
+
   return (
     <div 
       ref={ref}
@@ -98,7 +102,7 @@ const FileItem: React.FC<{
       )}
       <button 
         className="upload-file-menu-trigger"
-        onClick={(e) => e.stopPropagation()}
+        onClick={handleMenuClick}
         disabled={item.loading}
       >
         <MoreVertical size={16} />

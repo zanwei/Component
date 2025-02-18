@@ -75,10 +75,6 @@ export const Upload: React.FC<UploadProps> = ({
     onFileSelect?.(file);
   };
 
-  const getFileExtension = (filename: string) => {
-    return filename.split('.').pop()?.toLowerCase() || '';
-  };
-
   const handleMoveFile = (dragIndex: number, hoverIndex: number) => {
     setUploadedFiles(prevFiles => {
       const newFiles = [...prevFiles];

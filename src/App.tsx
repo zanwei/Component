@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAtom } from 'jotai';
 import { Dropdown } from './components/Dropdown';
 import { IconPanelB } from './components/IconPanel';
