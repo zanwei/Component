@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   FileIcon, ImageIcon, FileTextIcon, 
   FileVideoIcon, FileAudioIcon, FileJsonIcon, FileCodeIcon,
@@ -141,8 +141,6 @@ export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
   onDelete,
   onMove
 }) => {
-  const [activeMenu, setActiveMenu] = useState<number | null>(null);
-
   const fileTypes = {
     document: [
       'application/pdf',
@@ -251,12 +249,6 @@ export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
-
-  useEffect(() => {
-    const handleClickOutside = () => setActiveMenu(null);
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
