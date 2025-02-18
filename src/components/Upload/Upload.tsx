@@ -1,66 +1,64 @@
 import * as React from 'react';
-import { UploadContainerPanel } from './UploadContainerPanel';
+import { FileIcon, MoreVertical, Loader } from 'lucide-react';
 import './Upload.css';
 
 interface UploadProps {
-  maxSize?: number;
-  onFileSelect?: (file: File) => void;
+    maxSize: number;
+    onFileSelect: (file: File) => void;
 }
 
-export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) => {
-  const [files, setFiles] = React.useState<File[]>([]);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+export const Upload: React.FC<UploadProps> = ({ maxSize, onFileSelect }) => {
+    const [isLoading, setIsLoading] = React.useState(false);
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = event.target.files;
-    if (selectedFiles && selectedFiles.length > 0) {
-      const file = selectedFiles[0];
-      if (file.size > maxSize * 1024 * 1024) {
-        alert(`File size should not exceed ${maxSize}MB`);
-        return;
-      }
-      setFiles([...files, file]);
-      onFileSelect?.(file);
-    }
-  };
+    const handleClick = () => {
+        fileInputRef.current?.click();
+    };
 
-  const handleClick = () => {
-    inputRef.current?.click();
-  };
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
 
-  // 如果有文件，只显示 UploadContainerPanel
-  if (files.length > 0) {
+        if (file.size > maxSize * 1024 * 1024) {
+            alert(`File size must be less than ${maxSize}MB`);
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            await onFileSelect(file);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
-      <UploadContainerPanel 
-        files={files} 
-        onAddMore={() => inputRef.current?.click()}
-        onRemove={(index) => {
-          const newFiles = [...files];
-          newFiles.splice(index, 1);
-          setFiles(newFiles);
-        }}
-      />
+        <div className="upload-container">
+            <input
+                ref={fileInputRef}
+                type="file"
+                className="upload-input"
+                onChange={handleFileChange}
+                accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+            />
+            {isLoading ? (
+                <div className="upload-loading">
+                    <Loader className="upload-loading-icon" size={20} />
+                    Uploading...
+                </div>
+            ) : (
+                <>
+                    <button className="upload-button" onClick={handleClick}>
+                        Add a file or image
+                    </button>
+                    <div className="upload-info">
+                        <span className="upload-size-limit">The maximum size per file is {maxSize}MB</span>
+                        <a href="#" className="upload-pro-link">
+                            Upgrade to Pro
+                        </a>
+                    </div>
+                </>
+            )}
+        </div>
     );
-  }
-
-  // 如果没有文件，显示上传按钮
-  return (
-    <div className="upload-container">
-      <input
-        ref={inputRef}
-        type="file"
-        className="upload-input"
-        onChange={handleFileSelect}
-      />
-      <button className="upload-button" onClick={handleClick}>
-        Add a file or image
-      </button>
-      <div className="upload-info">
-        <span className="upload-size-limit">Max file size: {maxSize}MB</span>
-        <a href="#" className="upload-pro-link">
-          Upgrade to Pro
-        </a>
-      </div>
-    </div>
-  );
 }; 

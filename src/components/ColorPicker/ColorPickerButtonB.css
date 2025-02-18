@@ -1,0 +1,17 @@
+.color-picker-container {
+    position: relative;
+}
+
+.color-picker-button {
+    /* 现有样式保持不变 */
+}
+
+.color-picker-panel-b {
+    position: absolute;
+    top: calc(100% + 4px);  /* 添加这行，设置距离按钮 4px */
+    left: 0;
+    z-index: 10;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+} 

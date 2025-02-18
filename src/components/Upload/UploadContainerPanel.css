@@ -1,79 +1,69 @@
 .upload-container-panel {
+  width: 390px;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  width: 480px;
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(0, 0, 0, 0.16);
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 2px;
+  position: relative;
+  z-index: 1;
+  margin: auto;
 }
 
 .upload-files-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0
 }
 
 .upload-file-item {
+  width: 100%;
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 8px;
-  border: 1px solid #E5E7EB;
-  border-radius: 6px;
-  background: white;
-  position: relative;
+  min-height: 40px;
+  cursor: move;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  touch-action: none;
 }
 
 .upload-file-item.dragging {
   opacity: 0.5;
+  transform: scale(1.02);
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.upload-file-item:hover {
+  background: #f9f9f9;
+  border-radius: 6px;
 }
 
 .upload-file-info {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
+  padding: 4px;
+  border-radius: 6px;
+  height: 40px;
 }
 
 .upload-file-icon {
   width: 20px;
   height: 20px;
-  color: #6B7280;
+  color: #666;
 }
 
 .upload-file-name {
-  font-size: 14px;
-  color: #374151;
-}
-
-.upload-add-more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px;
-  border: 2px dashed #E5E7EB;
-  border-radius: 6px;
-  background: transparent;
-  color: #6B7280;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.upload-add-more:hover {
-  border-color: #9CA3AF;
-  color: #4B5563;
-}
-
-.upload-add-more-icon {
-  font-size: 18px;
-}
-
-.upload-file-ext {
-  font-size: 14px;
-  color: #666;
+  flex: 1;
+  font-size: 16px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .upload-preview {
@@ -94,6 +84,35 @@
   object-fit: contain;
 }
 
+.upload-add-more {
+  width: 100%;
+  height: 40px;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 12px 8px 8px;
+  transition: color 0.2s;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 4px;
+}
+
+.upload-add-more:hover {
+  color: #1e96eb;
+}
+
+.upload-add-more-icon {
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .upload-file-menu-trigger {
   width: 28px;
   height: 28px;
@@ -108,6 +127,8 @@
   border-radius: 4px;
   transition: background-color 0.2s;
   margin-top: 4px;
+  position: relative;
+  z-index: 2;
 }
 
 .upload-file-menu-trigger:hover {
