@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useAtom } from 'jotai';
 import { Dropdown } from './components/Dropdown';
 import { IconPanelB } from './components/IconPanel';
@@ -8,7 +9,7 @@ import { Upload } from './components/Upload';
 import { WorkspacePicker } from './components/Workspace';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
     const [activePanel] = useAtom(activePanelAtom);
 
     return (
@@ -58,6 +59,6 @@ function App() {
             </div>
         </div>
     );
-}
+};
 
 export default App; 

@@ -54,7 +54,8 @@ export default defineConfig({
     sourcemap: true,
     commonjsOptions: {
       include: [/node_modules/],
-      transformMixedEsModules: true
+      transformMixedEsModules: true,
+      requireReturnsDefault: 'auto'
     },
     rollupOptions: {
       input: {
@@ -68,8 +69,8 @@ export default defineConfig({
         inlineDynamicImports: false,
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react')) {
-              return 'react';
+            if (id.includes('react') || id.includes('scheduler')) {
+              return 'react-vendor';
             }
             if (id.includes('jotai')) {
               return 'jotai';
