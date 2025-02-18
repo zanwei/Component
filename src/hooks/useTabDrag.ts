@@ -10,9 +10,10 @@ interface UseTabDragProps {
   id: string;
   index: number;
   moveTab: (dragIndex: number, hoverIndex: number) => void;
+  updateInsertPosition: (position: { index: number; side: 'left' | 'right' } | null) => void;
 }
 
-export const useTabDrag = ({ id, index, moveTab }: UseTabDragProps) => {
+export const useTabDrag = ({ id, index, moveTab, updateInsertPosition }: UseTabDragProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, drag] = useDrag({
@@ -31,7 +32,10 @@ export const useTabDrag = ({ id, index, moveTab }: UseTabDragProps) => {
       const dragIndex = item.index;
       const hoverIndex = index;
 
-      if (dragIndex === hoverIndex) return;
+      if (dragIndex === hoverIndex) {
+        updateInsertPosition(null);
+        return;
+      }
 
       moveTab(dragIndex, hoverIndex);
       item.index = hoverIndex;

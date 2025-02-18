@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   FileIcon, ImageIcon, FileTextIcon, 
-  FileSpreadsheetIcon, FileTypeIcon, FileVideoIcon,
-  FileAudioIcon, FileJsonIcon, FileCodeIcon,
+  FileVideoIcon, FileAudioIcon, FileJsonIcon, FileCodeIcon,
   MoreVertical, Download, Trash2, Loader2
 } from 'lucide-react';
 import './UploadContainerPanel.css';
@@ -72,7 +71,8 @@ const FileItem: React.FC<{
 
   drag(drop(ref));
 
-  const handleMenuClick = () => {
+  const handleMenuClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setActiveMenu(!activeMenu);
   };
 
