@@ -45,7 +45,6 @@ export default defineConfig({
       transformMixedEsModules: true
     },
     rollupOptions: {
-      external: ['react/jsx-runtime'],
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
