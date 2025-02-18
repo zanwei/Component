@@ -46,10 +46,6 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'jotai-vendor': ['jotai']
-        }
       }
     }
   },
