@@ -6,7 +6,14 @@ import path from 'path';
 export default defineConfig({
   base: './',
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'classic',
+      babel: {
+        plugins: [
+          ['@babel/plugin-transform-react-jsx', { runtime: 'classic' }]
+        ]
+      }
+    }),
     svgr({
       svgrOptions: {
         icon: true,
@@ -17,7 +24,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': path.resolve(__dirname, './src'),
+      'react': path.resolve(__dirname, './node_modules/react'),
+      'jotai': path.resolve(__dirname, './node_modules/jotai')
     }
   },
   server: {
@@ -29,12 +38,22 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['jotai'],
+    include: ['jotai', 'react', 'react-dom'],
     exclude: ['@heroicons/react/24/outline'],
   },
   build: {
     commonjsOptions: {
-      include: [/jotai/],
+      include: [/node_modules/],
+      transformMixedEsModules: true
     },
+    rollupOptions: {
+      external: ['react/jsx-runtime'],
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'jotai-vendor': ['jotai']
+        }
+      }
+    }
   },
 }); 
