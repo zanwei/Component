@@ -21,6 +21,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "eslint": "^8.56.0",
     "gh-pages": "^6.3.0",
+    "terser": "^5.27.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3",
     "vite": "^4.4.0",
