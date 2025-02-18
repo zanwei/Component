@@ -1,16 +1,10 @@
 import * as React from 'react';
-import { UploadContainerPanel } from './UploadContainerPanel';
+import { UploadContainerPanel, FileItem } from './UploadContainerPanel';
 import './Upload.css';
 
 interface UploadProps {
   maxSize?: number;
   onFileSelect?: (file: File) => void;
-}
-
-interface FileItem {
-  file: File;
-  previewUrl: string | null;
-  loading?: boolean;
 }
 
 export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) => {
@@ -40,26 +34,6 @@ export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) =
     inputRef.current?.click();
   };
 
-  // 如果有文件，只显示 UploadContainerPanel
-  if (files.length > 0) {
-    return (
-      <UploadContainerPanel 
-        files={files} 
-        onAddMore={() => inputRef.current?.click()}
-        onRemove={(index: number) => {
-          const newFiles = [...files];
-          // 清理预览URL
-          if (newFiles[index].previewUrl) {
-            URL.revokeObjectURL(newFiles[index].previewUrl);
-          }
-          newFiles.splice(index, 1);
-          setFiles(newFiles);
-        }}
-      />
-    );
-  }
-
-  // 如果没有文件，显示上传界面
   return (
     <div className="upload-container">
       <input
@@ -68,15 +42,32 @@ export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) =
         className="upload-input"
         onChange={handleFileSelect}
       />
-      <button className="upload-button" onClick={handleClick}>
-        Add a file or image
-      </button>
-      <div className="upload-info">
-        <span className="upload-size-limit">Max file size: {maxSize}MB</span>
-        <a href="#" className="upload-pro-link">
-          Upgrade to Pro
-        </a>
-      </div>
+      {files.length > 0 ? (
+        <UploadContainerPanel 
+          files={files} 
+          onAddMore={handleClick}
+          onRemove={(index: number) => {
+            const newFiles = [...files];
+            if (newFiles[index].previewUrl) {
+              URL.revokeObjectURL(newFiles[index].previewUrl);
+            }
+            newFiles.splice(index, 1);
+            setFiles(newFiles);
+          }}
+        />
+      ) : (
+        <>
+          <button className="upload-button" onClick={handleClick}>
+            Add a file or image
+          </button>
+          <div className="upload-info">
+            <span className="upload-size-limit">Max file size: {maxSize}MB</span>
+            <a href="#" className="upload-pro-link">
+              Upgrade to Pro
+            </a>
+          </div>
+        </>
+      )}
     </div>
   );
 }; 
