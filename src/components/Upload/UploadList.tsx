@@ -1,15 +1,22 @@
 import * as React from 'react';
-import { FileIcon, MoreVertical, Download, Trash2 } from 'lucide-react';
+import { FileIcon, MoreVertical, Download, Trash2, Loader } from 'lucide-react';
 import './UploadContainerPanel.css';
 
 interface UploadListProps {
     files: File[];
-    onAddMore: () => void;
     onDelete: (index: number) => void;
+    onFileSelect: (file: File) => void;
+    maxSize: number;
 }
 
-export const UploadList: React.FC<UploadListProps> = ({ files, onAddMore, onDelete }) => {
+interface FileWithStatus extends File {
+    isUploading?: boolean;
+}
+
+export const UploadList: React.FC<UploadListProps> = ({ files, onDelete, onFileSelect, maxSize }) => {
     const [openMenuIndex, setOpenMenuIndex] = React.useState<number | null>(null);
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+    const [uploadingStates, setUploadingStates] = React.useState<boolean[]>(files.map(() => false));
 
     const handleMenuClick = (index: number) => {
         setOpenMenuIndex(openMenuIndex === index ? null : index);
@@ -26,6 +33,22 @@ export const UploadList: React.FC<UploadListProps> = ({ files, onAddMore, onDele
         URL.revokeObjectURL(url);
     };
 
+    const handleAddMore = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        if (file.size > maxSize * 1024 * 1024) {
+            alert(`File size must be less than ${maxSize}MB`);
+            return;
+        }
+
+        await onFileSelect(file);
+    };
+
     const handleClickOutside = React.useCallback(() => {
         setOpenMenuIndex(null);
     }, []);
@@ -39,12 +62,22 @@ export const UploadList: React.FC<UploadListProps> = ({ files, onAddMore, onDele
 
     return (
         <div className="upload-container-panel">
+            <input
+                ref={fileInputRef}
+                type="file"
+                className="upload-input"
+                onChange={handleFileChange}
+                accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
+            />
             <div className="upload-files-list">
                 {files.map((file, index) => (
                     <div key={index} className="upload-file-item">
                         <div className="upload-file-info">
                             <FileIcon className="upload-file-icon" />
                             <span className="upload-file-name">{file.name}</span>
+                            {uploadingStates[index] && (
+                                <Loader className="upload-loading-icon" size={16} />
+                            )}
                         </div>
                         <button 
                             className="upload-file-menu-trigger"
@@ -84,7 +117,7 @@ export const UploadList: React.FC<UploadListProps> = ({ files, onAddMore, onDele
                     </div>
                 ))}
             </div>
-            <button className="upload-add-more" onClick={onAddMore}>
+            <button className="upload-add-more" onClick={handleAddMore}>
                 <span className="upload-add-more-icon">+</span>
                 Add a file or image
             </button>

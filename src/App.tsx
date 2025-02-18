@@ -67,7 +67,8 @@ const App: React.FC = () => {
                             ) : (
                                 <UploadList 
                                     files={uploadedFiles}
-                                    onAddMore={() => setUploadedFiles([])}
+                                    maxSize={100}
+                                    onFileSelect={handleFileSelect}
                                     onDelete={handleDelete}
                                 />
                             )}
