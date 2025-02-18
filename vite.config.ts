@@ -25,8 +25,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      'react': path.resolve(__dirname, './node_modules/react'),
+      'framer-motion': path.resolve(__dirname, './node_modules/framer-motion')
     },
-    dedupe: ['react', 'react-dom']
+    dedupe: ['react', 'react-dom', 'framer-motion']
   },
   server: {
     port: 3002,
@@ -37,7 +39,7 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['jotai', 'react', 'react-dom'],
+    include: ['jotai', 'react', 'react-dom', 'framer-motion'],
     exclude: ['@heroicons/react/24/outline'],
     esbuildOptions: {
       mainFields: ['module', 'main'],
@@ -71,6 +73,9 @@ export default defineConfig({
             }
             if (id.includes('jotai')) {
               return 'jotai';
+            }
+            if (id.includes('framer-motion')) {
+              return 'framer-motion';
             }
             return 'vendor';
           }
