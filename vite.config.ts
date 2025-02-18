@@ -7,10 +7,10 @@ export default defineConfig({
   base: './',
   plugins: [
     react({
-      jsxRuntime: 'classic',
+      jsxRuntime: 'automatic',
       babel: {
         plugins: [
-          ['@babel/plugin-transform-react-jsx', { runtime: 'classic' }]
+          ['@babel/plugin-transform-react-jsx']
         ]
       }
     }),
@@ -25,8 +25,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      'react': path.resolve(__dirname, './node_modules/react'),
-      'jotai': path.resolve(__dirname, './node_modules/jotai')
     }
   },
   server: {
