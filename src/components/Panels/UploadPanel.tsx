@@ -1,29 +1,24 @@
-import * as React from 'react';
+import React from 'react';
+import { atom, useAtom } from 'jotai';
 import { UploadContainerPanel } from '../Upload/UploadContainerPanel';
-import './UploadPanel.css';
 
-interface FileItem {
-  file: File;
-  previewUrl: string | null;
-  loading?: boolean;
-}
+export const uploadPanelAtom = atom({
+  isVisible: false,
+  files: []
+});
 
 export const UploadPanel: React.FC = () => {
-  const [files, setFiles] = React.useState<FileItem[]>([]);
+  const [{ isVisible }] = useAtom(uploadPanelAtom);
+
+  if (!isVisible) return null;
 
   return (
-    <div className="upload-panel">
-      <UploadContainerPanel
-        files={files}
+    <div className="panel upload-panel">
+      <UploadContainerPanel 
+        files={[]}
         onAddMore={() => {}}
-        onRemove={(index: number) => {
-          const newFiles = [...files];
-          if (newFiles[index].previewUrl) {
-            URL.revokeObjectURL(newFiles[index].previewUrl);
-          }
-          newFiles.splice(index, 1);
-          setFiles(newFiles);
-        }}
+        onDelete={() => {}}
+        onMove={() => {}}
       />
     </div>
   );

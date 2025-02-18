@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UploadContainerPanel, FileItem } from './UploadContainerPanel';
+import { UploadContainerPanel } from './UploadContainerPanel';
 import './Upload.css';
 
 interface UploadProps {
@@ -8,10 +8,10 @@ interface UploadProps {
 }
 
 export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) => {
-  const [files, setFiles] = React.useState<FileItem[]>([]);
+  const [files, setFiles] = React.useState<File[]>([]);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
     if (selectedFiles && selectedFiles.length > 0) {
       const file = selectedFiles[0];
@@ -19,13 +19,7 @@ export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) =
         alert(`File size should not exceed ${maxSize}MB`);
         return;
       }
-
-      // 创建预览URL
-      const previewUrl = file.type.startsWith('image/') 
-        ? URL.createObjectURL(file)
-        : null;
-
-      setFiles([...files, { file, previewUrl, loading: false }]);
+      setFiles([...files, file]);
       onFileSelect?.(file);
     }
   };
@@ -34,6 +28,22 @@ export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) =
     inputRef.current?.click();
   };
 
+  // 如果有文件，只显示 UploadContainerPanel
+  if (files.length > 0) {
+    return (
+      <UploadContainerPanel 
+        files={files} 
+        onAddMore={() => inputRef.current?.click()}
+        onRemove={(index) => {
+          const newFiles = [...files];
+          newFiles.splice(index, 1);
+          setFiles(newFiles);
+        }}
+      />
+    );
+  }
+
+  // 如果没有文件，显示上传按钮
   return (
     <div className="upload-container">
       <input
@@ -42,32 +52,15 @@ export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) =
         className="upload-input"
         onChange={handleFileSelect}
       />
-      {files.length > 0 ? (
-        <UploadContainerPanel 
-          files={files} 
-          onAddMore={handleClick}
-          onRemove={(index: number) => {
-            const newFiles = [...files];
-            if (newFiles[index].previewUrl) {
-              URL.revokeObjectURL(newFiles[index].previewUrl);
-            }
-            newFiles.splice(index, 1);
-            setFiles(newFiles);
-          }}
-        />
-      ) : (
-        <>
-          <button className="upload-button" onClick={handleClick}>
-            Add a file or image
-          </button>
-          <div className="upload-info">
-            <span className="upload-size-limit">Max file size: {maxSize}MB</span>
-            <a href="#" className="upload-pro-link">
-              Upgrade to Pro
-            </a>
-          </div>
-        </>
-      )}
+      <button className="upload-button" onClick={handleClick}>
+        Add a file or image
+      </button>
+      <div className="upload-info">
+        <span className="upload-size-limit">Max file size: {maxSize}MB</span>
+        <a href="#" className="upload-pro-link">
+          Upgrade to Pro
+        </a>
+      </div>
     </div>
   );
 }; 

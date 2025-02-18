@@ -29,7 +29,6 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@vercel/speed-insights": "^1.2.0",
     "framer-motion": "^10.18.0",
     "jotai": "^1.13.1",
     "lucide-react": "^0.330.0",
