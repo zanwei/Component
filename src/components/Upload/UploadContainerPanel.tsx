@@ -8,18 +8,17 @@ import './UploadContainerPanel.css';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-interface UploadContainerPanelProps {
-  files: Array<{
-    file: File;
-    previewUrl: string | null;
-    loading?: boolean;
-  }>;
-  onAddMore: () => void;
-  onDelete: (index: number) => void;
-  onMove: (dragIndex: number, hoverIndex: number) => void;
+interface FileItem {
+  file: File;
+  previewUrl: string | null;
+  loading?: boolean;
 }
 
-export type FileType = 'document' | 'image' | 'audio' | 'video' | 'data' | 'code' | 'other';
+export interface UploadContainerPanelProps {
+  files: FileItem[];
+  onAddMore: () => void;
+  onRemove: (index: number) => void;
+}
 
 interface DragItem {
   index: number;
@@ -27,15 +26,14 @@ interface DragItem {
 }
 
 const FileItem: React.FC<{
-  item: UploadContainerPanelProps['files'][0];
+  item: FileItem;
   index: number;
-  onDelete: (index: number) => void;
-  onMove: (dragIndex: number, hoverIndex: number) => void;
+  onRemove: (index: number) => void;
   getFileIcon: (fileType: FileType) => JSX.Element;
   getFileType: (file: File) => FileType;
   formatFileName: (filename: string) => string;
   handleDownload: (file: File) => void;
-}> = ({ item, index, onDelete, onMove, getFileIcon, getFileType, formatFileName, handleDownload }) => {
+}> = ({ item, index, onRemove, getFileIcon, getFileType, formatFileName, handleDownload }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
 
@@ -64,7 +62,7 @@ const FileItem: React.FC<{
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
 
-      onMove(dragIndex, hoverIndex);
+      onRemove(dragIndex);
       dragItem.index = hoverIndex;
     },
   });
@@ -123,7 +121,7 @@ const FileItem: React.FC<{
             className="upload-file-menu-item"
             onClick={(e) => {
               e.stopPropagation();
-              onDelete(index);
+              onRemove(index);
             }}
           >
             <Trash2 size={16} />
@@ -135,11 +133,12 @@ const FileItem: React.FC<{
   );
 };
 
+export type FileType = 'document' | 'image' | 'audio' | 'video' | 'data' | 'code' | 'other';
+
 export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
   files,
   onAddMore,
-  onDelete,
-  onMove
+  onRemove
 }) => {
   const fileTypes = {
     document: [
@@ -259,8 +258,7 @@ export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
               key={`${item.file.name}-${index}`}
               item={item}
               index={index}
-              onDelete={onDelete}
-              onMove={onMove}
+              onRemove={onRemove}
               getFileIcon={getFileIcon}
               getFileType={getFileType}
               formatFileName={formatFileName}

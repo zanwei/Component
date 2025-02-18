@@ -7,11 +7,17 @@ interface UploadProps {
   onFileSelect?: (file: File) => void;
 }
 
+interface FileItem {
+  file: File;
+  previewUrl: string | null;
+  loading?: boolean;
+}
+
 export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) => {
-  const [files, setFiles] = React.useState<File[]>([]);
+  const [files, setFiles] = React.useState<FileItem[]>([]);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
     if (selectedFiles && selectedFiles.length > 0) {
       const file = selectedFiles[0];
@@ -19,7 +25,13 @@ export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) =
         alert(`File size should not exceed ${maxSize}MB`);
         return;
       }
-      setFiles([...files, file]);
+
+      // 创建预览URL
+      const previewUrl = file.type.startsWith('image/') 
+        ? URL.createObjectURL(file)
+        : null;
+
+      setFiles([...files, { file, previewUrl, loading: false }]);
       onFileSelect?.(file);
     }
   };
@@ -34,8 +46,12 @@ export const Upload: React.FC<UploadProps> = ({ maxSize = 100, onFileSelect }) =
       <UploadContainerPanel 
         files={files} 
         onAddMore={() => inputRef.current?.click()}
-        onRemove={(index) => {
+        onRemove={(index: number) => {
           const newFiles = [...files];
+          // 清理预览URL
+          if (newFiles[index].previewUrl) {
+            URL.revokeObjectURL(newFiles[index].previewUrl);
+          }
           newFiles.splice(index, 1);
           setFiles(newFiles);
         }}
