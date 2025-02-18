@@ -252,11 +252,6 @@ export const UploadContainerPanel: React.FC<UploadContainerPanelProps> = ({
     URL.revokeObjectURL(url);
   };
 
-  const handleMenuClick = (index: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setActiveMenu(activeMenu === index ? null : index);
-  };
-
   useEffect(() => {
     const handleClickOutside = () => setActiveMenu(null);
     document.addEventListener('click', handleClickOutside);
