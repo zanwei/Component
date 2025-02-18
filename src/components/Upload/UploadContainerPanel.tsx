@@ -8,7 +8,7 @@ import './UploadContainerPanel.css';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-interface FileItem {
+export interface FileItem {
   file: File;
   previewUrl: string | null;
   loading?: boolean;
