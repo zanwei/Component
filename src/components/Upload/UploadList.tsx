@@ -9,14 +9,9 @@ interface UploadListProps {
     maxSize: number;
 }
 
-interface FileWithStatus extends File {
-    isUploading?: boolean;
-}
-
 export const UploadList: React.FC<UploadListProps> = ({ files, onDelete, onFileSelect, maxSize }) => {
     const [openMenuIndex, setOpenMenuIndex] = React.useState<number | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
-    const [uploadingStates, setUploadingStates] = React.useState<boolean[]>(files.map(() => false));
 
     const handleMenuClick = (index: number) => {
         setOpenMenuIndex(openMenuIndex === index ? null : index);
@@ -75,9 +70,6 @@ export const UploadList: React.FC<UploadListProps> = ({ files, onDelete, onFileS
                         <div className="upload-file-info">
                             <FileIcon className="upload-file-icon" />
                             <span className="upload-file-name">{file.name}</span>
-                            {uploadingStates[index] && (
-                                <Loader className="upload-loading-icon" size={16} />
-                            )}
                         </div>
                         <button 
                             className="upload-file-menu-trigger"
