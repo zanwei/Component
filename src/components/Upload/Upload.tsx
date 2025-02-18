@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FileIcon, MoreVertical, Loader } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import './Upload.css';
 
 interface UploadProps {
